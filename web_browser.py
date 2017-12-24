@@ -1,5 +1,5 @@
 #function to listen to voice commands and then return a corresponding string 
-def listen(chunk_size=2048):
+def listen(chunk_size=2048,say = "Say Something"):
 	import speech_recognition as sr
 	# obtain audio from the microphone  
 	r = sr.Recognizer()  
@@ -8,7 +8,7 @@ def listen(chunk_size=2048):
 		# listen for 3 seconds and create the ambient noise energy level  
 		r.adjust_for_ambient_noise(source, duration=3)  
 		#Instead of printing "SAY OUT LOUD"
-		print("Say something!")  
+		print say  
 		audio = r.listen(source)
 		# recognize speech using Google  
 		try:  
@@ -32,7 +32,7 @@ def googleSearch():
 	from urlparse import urlparse
 
 	urllist = []
-	query = listen()
+	query = listen(2048,"Google Search Keyword?")
 	print query
 	for j in search(query, tld="co.in", num=9, stop=1, pause=2):
 		urllist.append(j)
