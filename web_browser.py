@@ -16,15 +16,40 @@ def listen(chunk_size=2048):
 			if(text!=None):
 				return text
 			else:
-				listen()
+				listen(chunk_size)
 		except sr.UnknownValueError:  
 			print("Google could not understand audio") 
-			listen()
+			listen(chunk_size)
 		except sr.RequestError as e:  
 			print("Google error; {0}".format(e)) 
-			listen() 
+			listen(chunk_size) 
 
-def webBrowser():
-	from splinter import Browser 
-	browser = Browser()
+
+#function to run google search from command line
+def googleSearch():
+	import webbrowser as wb
+	from google import search
+	from urlparse import urlparse
+
+	urllist = []
+	query = listen()
+	print query
+	for j in search(query, tld="co.in", num=9, stop=1, pause=2):
+		urllist.append(j)
+
+	for i in range(0,len(urllist)):
+		url = urlparse(urllist[i])
+		output_text = url.netloc+url.path
+		#SPEAK LOUD
+		print output_text
+		print "Visit this URL? (Yes/No)"
+		ans = listen(256)
+		print ans
+		if(ans=='yes'):
+			wb.open_new(urllist[i])
+			break
+
+
+
+googleSearch()
 
