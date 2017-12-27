@@ -15,18 +15,20 @@ def callback(phrase, listener):
 	phrase = phrase.lower()
 	if phrase == "exit" :
 		speech.say('Exiting pdf file reading task')
-		os._exit(1)		
-			
+		os._exit(1)
+	if phrase == "pause" :
+		speech.say('What do you want to do?')
+		#Menu
+		speech.say(n2w.num2words(1, to='ordinal') + 'Exit')
+		speech.say(n2w.num2words(2, to='ordinal') + 'Resume') 
+		listener = speech.listenforanything(callback)
 
-
-
-
+		
 #Pdf file to listen
 file = 'C:\Users\Priya Rani\Desktop\Wedu\SOP.pdf' 
  
 # creating a pdf file object
 pdfFileObj = open(file, 'rb') 
- 
 # creating a pdf reader object
 pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
  
