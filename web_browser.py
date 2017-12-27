@@ -50,6 +50,24 @@ def googleSearch():
 			break
 
 
+#Create bookmarks, Web browser must be open and active
+def createBookmark():
+	import pyautogui as gui
+	gui.hotkey('ctrl','d')
+	gui.press('enter')
 
-googleSearch()
+#Bookmarks exported to a file "bookmarks"
+def accessBookmarks():
+	import chrome_bookmarks as bookmarks
+	bookmarks.export()
+
+#History exported to a file "history"
+def accessHistory():
+	import chrome_history as history 
+	history.export()
+
+
+accessBookmarks()
+accessHistory()
+
 
