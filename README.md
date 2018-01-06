@@ -23,26 +23,41 @@ https://docs.google.com/spreadsheets/d/1d9-0a-qe7w713yk49RsQJP3Sp2EWHebwGLGIMBaV
 
 Pdf Reader
 
-Install following libraries:
+1.Install following libraries:
+
 pip install PyPDF2
+
 pip install pypiwin32 or pywin32
+
 pip install num2words
 
-change file name in pdfReader_keyboardinput.py script
+2.Change file name in pdfReader_keyboardinput.py script
 
-Run 'python pdfReader_keyboardinput.py '
+3.Run 'python pdfReader_keyboardinput.py '
 
-Press Ctrl+C to pause the script
+4.Press Ctrl+C to pause the script
+
 Press any key except (1 - 10) to hear menu.
+
 1-10 input follows certain task to perform as follows:
+
 1:Start - Begin with 1st line of pdf
+
 2:Pause
+
 3:Resume
+
 4:Exit
+
 5:Rewind 
+
 6:Repeat
+
 7:Skip current page
+
 8:Jump to a specific page
+
 9:Search
+
 10:Change speed of voice (-10 to 10)
 
