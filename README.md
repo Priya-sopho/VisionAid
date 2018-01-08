@@ -63,11 +63,11 @@ Press any key except (1 - 10) to hear menu.
 
 
 
-Music Player
+**Music Player**
 
 1.Install following libraries:
 
-pip install pygame
+>pip install pygame
 
 2.Change file name in music.py script
 
