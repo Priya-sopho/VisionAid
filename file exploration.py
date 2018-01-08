@@ -89,4 +89,14 @@ def copy_directory(src,dst,symlinks=False, ignore=None):
         else:
             copy2(s, d)
 
-create_directory("F:","ok")
+
+def open_file(path):
+    file = open(path)
+    return file
+
+
+open_MyPc()
+get_directory_list("F:/harshita")
+print(create_directory("F:","ok"))
+copy_file("F:/abc.doc","G:")
+copy_directory("F:/harshita","G:")
