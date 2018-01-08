@@ -26,28 +26,28 @@ def get_directory_list(directory):
         if os.path.isfile(os.path.join(directory,x)):
             if(x.endswith('.pdf')):
                 print("pdf-",x)
-                speak.Speak("pdf-",x)
+                speak.Speak("pdf"+x)
             elif(x.endswith('.doc')):
                 print("doc-",x)
-                speak.Speak("doc", x)
+                speak.Speak("doc"+ x)
             elif(x.endswith('.mp3')):
                 print("audio",x)
-                speak.Speak("audio", x)
+                speak.Speak("audio"+ x)
             else:
                 print('f-',x)
-                speak.Speak("file", x)
+                speak.Speak("file"+ x)
 
         elif os.path.isdir(os.path.join(directory,x)):
             print ('d-', x)
-            speak.Speak("folder", x)
+            speak.Speak("folder"+ x)
 
         elif os.path.islink(os.path.join(directory,x)):
             print ('l-', x)
-            speak.Speak("link", x)
+            speak.Speak("link"+ x)
 
         else:
             print ('---', x)
-            speak.Speak( x)
+            speak.Speak(x)
 
 def open_MyPc():
     list = get_drives()
@@ -55,8 +55,12 @@ def open_MyPc():
         print(l)
         speak.Speak(l)
     drive = input()
-    path = drive
-    return path
+    if is_valid_path(drive):
+        return drive
+    else:
+        speak.Speak("Enter correct drive")
+        return 0;
+    
 
 def get_size(path):
     return os.path.getsize(path)
@@ -95,8 +99,8 @@ def open_file(path):
     return file
 
 
-open_MyPc()
-get_directory_list("F:/harshita")
+print(open_MyPc())
+get_directory_list("F:\harshita")
 print(create_directory("F:","ok"))
-copy_file("F:/abc.doc","G:")
-copy_directory("F:/harshita","G:")
+copy_file("F:\\abc.doc","G:")
+copy_directory("F:\harshita","G:")
