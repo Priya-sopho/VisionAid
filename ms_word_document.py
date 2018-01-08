@@ -70,8 +70,6 @@ def addHeading():
 	saveAsDoc()
 
 
-# print "To open a new Word document - Enter 1"
-# print "To open an existing Word document - Enter 2"
 choice = int(raw_input("To open a new Word document - Enter 1" + '\n' + "To open an existing Word document - Enter 2 : "))
 filename=""
 if choice == 1 :
