@@ -74,3 +74,16 @@ Press any key except (1 - 10) to hear menu.
 3.Run 'python music.py '
 
 4.Press Ctrl+C to pause the script
+
+
+**File exploration**
+
+1. No installation required.
+
+2. open_MyPc() will list/speak all drives on your system.
+
+3. change directory name in get_directory_list(), and it will print/speak all files, audio,directory,pdf,doc within that directory .
+
+4. change create_directory("F:","ok") , replace "F:" by the path where you want to create a new directory and replace "ok" by folder name. If folder name already exist it will print 0 else 1.
+
+5. Similarly change path for copy_file() and copy_directory(). 
