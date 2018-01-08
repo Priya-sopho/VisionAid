@@ -61,3 +61,16 @@ Press any key except (1 - 10) to hear menu.
 
 >10:Change speed of voice (-10 to 10)
 
+
+
+Music Player
+
+1.Install following libraries:
+
+pip install pygame
+
+2.Change file name in music.py script
+
+3.Run 'python music.py '
+
+4.Press Ctrl+C to pause the script
