@@ -87,3 +87,20 @@ Press any key except (1 - 10) to hear menu.
 4. change create_directory("F:","ok") , replace "F:" by the path where you want to create a new directory and replace "ok" by folder name. If folder name already exist it will print 0 else 1.
 
 5. Similarly change path for copy_file() and copy_directory(). 
+
+**Web Browser**
+
+1. Install the following Libraries:
+  *speech_recognition
+  *webbrowser
+  *google
+  *pyautogui
+  **INSTALL using command : pip install dependency_name**
+  Incase of installation errors try using **sudo** with pip command
+  
+2.Run **web_browser.py** using command: *python web_browser.py*
+3.**googleSearch()** will perform a google search for spoken keyword and then return top 10 results, which will be read out loud for the user to choose.
+4.**accessBookmarks()** will export the browser's boookmarks to a file called *bookmarks*.
+5.**accessHistory()** will export the browser's history to a file called *history*.
+6.**createBookmark()** will create a bookmark for the current webpage.
+  
