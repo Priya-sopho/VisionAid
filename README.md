@@ -92,17 +92,17 @@ Press any key except (1 - 10) to hear menu.
 
   1.Install the following Libraries:
 
-    >speech_recognition
+  >speech_recognition
 
-    >webbrowser
+  >webbrowser
 
-    >google
+  >google
 
-    >pyautogui
+  >pyautogui
 
-    **INSTALL using command : pip install dependency_name**
+  **INSTALL using command : pip install dependency_name**
 
-    Incase of installation errors try using **sudo** with pip command
+  Incase of installation errors try using **sudo** with pip command
   
   2.Run **web_browser.py** using command: *python web_browser.py*
 
