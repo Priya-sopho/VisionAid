@@ -90,22 +90,27 @@ Press any key except (1 - 10) to hear menu.
 
 **Web Browser**
 
-1. Install the following Libraries:
-  >speech_recognition
-  >webbrowser
-  >google
-  >pyautogui
-  **INSTALL using command : pip install dependency_name**
-  Incase of installation errors try using **sudo** with pip command
+  1.Install the following Libraries:
+
+    >speech_recognition
+
+    >webbrowser
+
+    >google
+
+    >pyautogui
+
+    **INSTALL using command : pip install dependency_name**
+
+    Incase of installation errors try using **sudo** with pip command
   
-2.Run **web_browser.py** using command: *python web_browser.py*
+  2.Run **web_browser.py** using command: *python web_browser.py*
 
- >**googleSearch()** will perform a google search for spoken keyword and then return top 10 results, which will be read out
- loud for the user to choose.
+   >**googleSearch():** will perform a google search for spoken keyword and then return top 10 results.
 
- >**accessBookmarks()** will export the browser's boookmarks to a file called *bookmarks*.
+   >**accessBookmarks():** will export the browser's boookmarks to a file called *bookmarks*.
 
- >**accessHistory()** will export the browser's history to a file called *history*.
+   >**accessHistory():** will export the browser's history to a file called *history*.
 
- >**createBookmark()** will create a bookmark for the current webpage.
+   >**createBookmark():** will create a bookmark for the current webpage.
   
