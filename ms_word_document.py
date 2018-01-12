@@ -75,19 +75,22 @@ filename=""
 if choice == 1 :
 	doc = docx.Document()
 	filename = raw_input("Give the name of the new file: ")
+	if ".docx" not in filename:
+		filename = filename + ".docx"
 elif choice == 2:
 	filename = raw_input("Enter the name of existing document: ")
 	if ".docx" not in filename:
 		filename = filename + ".docx"
 		doc = docx.Document(filename)
+saveAsDoc()
 Flag = True
 flag2 = True
 while Flag == True:
 	print ('1. To read the file' + '\n'
 			'2. To write a new paragraph on the file' + '\n'
 			'3. To add a new formatted text' + '\n'
-			'4. To change the font style and font name of the document' +'\n')
-			# '5. To add a Heading')
+			'4. To change the font style and font name of the document' +'\n'
+			'5. To add a Heading')
 	ch = int(raw_input())
 	if ch == 1:
 		print(getFullText())
@@ -110,8 +113,8 @@ while Flag == True:
 		name, size = raw_input("Enter the font name and font size(space seperated):").split(' ')
 		size = int(size)
 		changeDocFont(name, size)
-	# elif ch == 5:
-	# 	addHeading()
+	elif ch == 5:
+		addHeading()
 	another_operation = raw_input("Do You want to perform another operation? y or n: ").upper()
 	if another_operation == 'N' or another_operation == 'No':
 		Flag = False
