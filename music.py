@@ -10,33 +10,28 @@ import num2words as n2w
 import os
 sense=wincl.Dispatch("SAPI.SpVoice")
 
-music_file = "C:\\Users\\H\\Music\\English Songs\\Cut - Copy.mp3"
-volume=0.8
-
 class musicPlayer:
     task = ['Play', 'Pause', 'Stop', 'Rewind', 'Unpause', 'Queue', 'Set Volume']
 
-    def __init__(self):
+    def play_music(self):
         # set up the mixer
         freq = 44100 # audio CD quality
         bitsize = -16 # unsigned 16 bit
         channels = 2 # 1 is mono, 2 is stereo
-        buffer = 2048 # number of samples (experiment to get best sound)
+        _buffer = 4096 # number of samples (experiment to get best sound)
 
         #initializes the pygame mixer (player) with the given arguments
-        pg.mixer.init(freq, bitsize, channels, buffer)
+        pg.mixer.init(freq, bitsize, channels, _buffer)
+        #try:
+        music_file = 'C:\\Users\\H\\Music\\English Songs\\(webmusic.in)_Breathless - Copy.mp3'
+        #pg.mixer.music.load(music_file)
+        #sense.Speak('Music file loaded!')
 
-
-
-    def play_music(music_file, volume=0.8):
-        try:
-            pg.mixer.music.load(music_file)
-            sense.Speak('Music file loaded!')
-
-        except pg.error:
-            sense.Speak('File not found!')
-            return
-        pg.mixer.music.play()
+        #except pg.error:
+        #    sense.Speak('File not found!')
+        #    return
+        sound=pg.mixer.Sound(music_file)
+        sound.play()
 
 
 
@@ -107,28 +102,34 @@ class musicPlayer:
              else:
                  sense.Speak('Wrong Input!')
                  self.menu()
+         except KeyboardInterrupt:
+             sense.Speak('Pausing..')
+             response = int(raw_input())
+             if response < len(self.task):
+                 sense.Speak(self.task[response-1])
+             self.action(response)
 
 
+def Task(phrase):
+    phrase.lower()
+    if phrase == 'play':
+        play_music()
+    elif phrase == 'pause':
+        pause()
+    elif phrase == 'resume':
+        resume()
+    elif phrase == 'exit':
+        exit()
+    elif phrase == 'rewind':
+        rewind()
+     #elif phrase == 'play next':
+         #queueNext()
+    elif phrase == 'set volume':
+        setVolume()
+    else:
+        sense.Speak('Sorry! Unable to recognize your action')
+    resume()
 
-     def Task(phrase):
-         phrase.lower()
-         if phrase == 'play':
-             play_music()
-         elif phrase == 'pause':
-             pause()
-         elif phrase == 'resume':
-             resume()
-         elif phrase == 'exit':
-             exit()
-         elif phrase == 'rewind':
-             rewind()
-         elif phrase == 'play next':
-             queueNext()
-         elif phrase == 'set volume':
-             setVolume()
-         else
-             sense.Speak('Sorry! Unable to recognize your action')
-         resume()
-
-
-play_music(music_file,volume)
+#start()
+playMusic = musicPlayer()
+playMusic.play_music()
