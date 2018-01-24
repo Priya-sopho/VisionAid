@@ -98,9 +98,12 @@ def open_file(path):
     file = open(path)
     return file
 
+def go_back(path):
+    return os.path.dirname(path)
 
 print(open_MyPc())
 get_directory_list("F:\harshita")
 print(create_directory("F:","ok"))
 copy_file("F:\\abc.doc","G:")
 copy_directory("F:\harshita","G:")
+print(go_back("F:\harshita\hg"))
