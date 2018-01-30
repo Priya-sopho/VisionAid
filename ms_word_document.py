@@ -1,120 +1,154 @@
+from __future__ import print_function
 import docx
 from docx.shared import Pt
+from docx.enum.style import WD_STYLE_TYPE
 
+
+class docEditor(object):
+	"""docstring for docEditor"""
+	def __init__(self, docName, filename, paraName = None):
+		super(docEditor, self).__init__()
+		self.doc = docName
+		if '.docx' not in filename:
+			filename = filename + '.docx'
+		self.filename = filename
+		if (paraName != None):
+			self.para = self.doc.paragraphs[-1]
+		else:
+			self.para = None
+		
 # to get the whole document text for read operation
-def getFullText():
-	global doc
-	fulltext = []
-	for para in doc.paragraphs:
-		fulltext.append(para.text)
-	return '\n'.join(fulltext)
+	def getFullText(self):
+		fulltext = []
+		for paras in self.doc.paragraphs:
+			fulltext.append(paras.text)
+		return '\n'.join(fulltext)
 
 # to save the doc as a word document file
-def saveAsDoc():
-	global doc
-	global filename
-	doc.save(filename)
+	def saveAsDoc(self):
+		self.doc.save(self.filename)
 
 # Enter the text to be added
-def enterText():
-	text = raw_input("Enter the text : ")
-	return text
+	def enterText(self):
+		# text = raw_input("Enter the text : ")
+		print("Enter the text: ")
+		lines = []
+		while True:
+			line = raw_input()
+			if line:
+				lines.append(line)
+			else:
+				break
+		text = '\n'.join(lines)
+		return text
 
 # adding new paragraph at the end of the document 
-def addNewPara():
-	global doc
-	text = enterText()
-	doc.add_paragraph(text)
-	saveAsDoc()
+	def addNewPara(self):
+		text = self.enterText()
+		self.para = self.doc.add_paragraph(text)
+		self.saveAsDoc()
+		# return para
+# to set the paragraph object
+	def setPara(self, paragraph):
+		self.para = paragraph
 
-# add a new paragraph with bold text
-def AddBoldText():
-	global doc
-	text = enterText()
-	para = doc.add_paragraph()
-	para.add_run(text).bold = True
-	saveAsDoc()
+# add formatted text in the running paragraph
+	def formattedtext(self,formats):
+		types = formats.split(' ')
+		lineBreak = raw_input("Do u want to enter formatted text on a new line? (Y or N): ").upper()
+		run = self.para.add_run()
+		if lineBreak == 'Y' or lineBreak == 'YES':
+			run.add_break()
+		if 'BOLD' or 'B' in types:
+			run.bold = not run.bold
+		if 'ITALIC' or 'I' in types:
+			run.italic = not run.italic
+		if 'UNDERLINE' or 'U' in types:
+			run.underline = not run.underline
+		text = self.enterText()
+		run.add_text(text)
+		self.saveAsDoc()
 
-# add a new paragraph with italic text
-def AddItalicText():
-	global doc
-	text = enterText()
-	para = doc.add_paragraph()
-	para.add_run(text).italic = True
-	saveAsDoc()
-
-# add a new paragraph with underlined text
-def AddUnderline():
-	global doc
-	text = enterText()
-	para = doc.add_paragraph()
-	para.add_run(text).underline = True
-	saveAsDoc()
+# to make a new table 
+	def makeTable(self):
+		nr = int(raw_input("Enter the following" + '\n' + 'Rows: '))
+		nc = int(raw_input("Columns: "))
+		table = self.doc.add_table(nr,nc)
+		table.style.name = 'TableGrid'
+		print("Enter the values in the table row by row: ")
+		for row in table.rows:
+			for cell in row.cells:
+				cell.text = raw_input()	
+			print('\n')	
+		print('\n')
+		for row in table.rows:
+			for cell in row.cells:
+				print(cell.text , end = ' ')
+			print('\n')
+		self.saveAsDoc()
 
 # to change the document's font name and font size
-def changeDocFont(fontName, Size):
-	global doc
-	style = doc.styles['Normal']
-	font = style.font
-	font.name = fontName
-	font.size = Pt(Size)
-	font.bold = None
-	font.italic = None
-	font.underline = None
+	def changeDocFont(self,fontName, Size):
+		style = self.doc.styles['Normal']
+		font = style.font
+		font.name = fontName
+		font.size = Pt(Size)
 
 # to add a heading to the document
-def addHeading():
-	global doc
-	text = enterText()
-	doc.add_heading(text)
-	saveAsDoc()
+	def addHeading(self):
+		l = int(raw_input("Enter the heading level: "))
+		text = self.enterText()
+		self.doc.add_heading(text, level = l)
+		self.saveAsDoc()
 
-
+# the working menu
 choice = int(raw_input("To open a new Word document - Enter 1" + '\n' + "To open an existing Word document - Enter 2 : "))
 filename=""
 if choice == 1 :
-	doc = docx.Document()
+	docName = docx.Document()
 	filename = raw_input("Give the name of the new file: ")
 	if ".docx" not in filename:
 		filename = filename + ".docx"
+	document = docEditor(docName,filename)
 elif choice == 2:
 	filename = raw_input("Enter the name of existing document: ")
 	if ".docx" not in filename:
 		filename = filename + ".docx"
-		doc = docx.Document(filename)
-saveAsDoc()
+		docName = docx.Document(filename)
+	document = docEditor(docName,filename,True)
+document.saveAsDoc()
 Flag = True
 flag2 = True
 while Flag == True:
-	print ('1. To read the file' + '\n'
-			'2. To write a new paragraph on the file' + '\n'
-			'3. To add a new formatted text' + '\n'
-			'4. To change the font style and font name of the document' +'\n'
-			'5. To add a Heading')
-	ch = int(raw_input())
+	print ('1. To read the file' + '\n' +
+			'2. To add a Heading' + '\n' +
+			'3. To write a new paragraph on the file' + '\n' +
+			'4. To add a new formatted text' +'\n' +
+			'5. To change the font style and font name of the document' + '\n'
+			'6. To add a new Table and then display it')
+	ch = int(raw_input("Enter your choice number: "))
 	if ch == 1:
-		print(getFullText())
+		print(document.getFullText())    # to display the text
 	elif ch == 2:
-		addNewPara()
+		document.addHeading()
 	elif ch == 3:
+		document.addNewPara()
+		# document.setPara(para)
+	elif ch == 4:
 		while flag2 == True:
-			print('Enter your choice: bold, italic or underline')
+			new_format = ''
+			print('Enter your choice: bold(B), italic(I) or underline(U) (seperated by spaces): ')
 			new_format = raw_input().upper()
-			if new_format == 'BOLD':
-				AddBoldText()
-			elif new_format == 'ITALIC':
-				AddItalicText()
-			elif new_format == 'UNDERLINE':
-				AddUnderline()
-			Continue = raw_input("Do You want to add formatted text? y or n: ").upper()
+			document.formattedtext(new_format)
+			Continue = raw_input("Do You want to add more formatted text? y or n: ").upper()
 			if Continue == 'N' or Continue == 'NO':
 				flag2 = False
-	elif ch == 4:
+	elif ch == 5:
 		name, size = raw_input("Enter the font name and font size(space seperated):").split(' ')
 		size = int(size)
-		changeDocFont(name, size)
-	elif ch == 5:
-		addHeading()
+		document.changeDocFont(name, size)
+	elif ch == 6:
+		document.makeTable()
 	another_operation = raw_input("Do You want to perform another operation? y or n: ").upper()
 	if another_operation == 'N' or another_operation == 'No':
 		Flag = False
