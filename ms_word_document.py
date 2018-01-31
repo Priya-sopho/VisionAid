@@ -1,6 +1,7 @@
 from __future__ import print_function
 import docx
 from docx.shared import Pt
+from docx.shared import Inches
 from docx.enum.style import WD_STYLE_TYPE
 
 
@@ -57,23 +58,28 @@ class docEditor(object):
 		types = formats.split(' ')
 		lineBreak = raw_input("Do u want to enter formatted text on a new line? (Y or N): ").upper()
 		run = self.para.add_run()
+		style = self.para.style
+		font  = style.font
 		if lineBreak == 'Y' or lineBreak == 'YES':
 			run.add_break()
 		if 'BOLD' or 'B' in types:
-			run.bold = not run.bold
+			font.bold = not font.bold
+			run.bold = font.bold
 		if 'ITALIC' or 'I' in types:
-			run.italic = not run.italic
+			font.italic = not font.italic
+			run.italic = font.italic
 		if 'UNDERLINE' or 'U' in types:
-			run.underline = not run.underline
+			font.underline = not font.underline
+			run.underline = font.underline
 		text = self.enterText()
 		run.add_text(text)
 		self.saveAsDoc()
 
 # to make a new table 
 	def makeTable(self):
-		nr = int(raw_input("Enter the following" + '\n' + 'Rows: '))
-		nc = int(raw_input("Columns: "))
-		table = self.doc.add_table(nr,nc)
+		row_count = int(raw_input("Enter the following" + '\n' + 'Rows: '))
+		col_count = int(raw_input("Columns: "))
+		table = self.doc.add_table(row_count,col_count)
 		table.style.name = 'TableGrid'
 		print("Enter the values in the table row by row: ")
 		for row in table.rows:
@@ -85,6 +91,7 @@ class docEditor(object):
 			for cell in row.cells:
 				print(cell.text , end = ' ')
 			print('\n')
+		print('\n')
 		self.saveAsDoc()
 
 # to change the document's font name and font size
@@ -100,6 +107,15 @@ class docEditor(object):
 		text = self.enterText()
 		self.doc.add_heading(text, level = l)
 		self.saveAsDoc()
+
+# to add a picture to the doc file
+	def addPicture(self):
+		pic_name = raw_input("Enter the name of the Picture (with extension i.e. .png or .jpeg): ")
+		pic_width = float(raw_input("Enter the picture width in inches: "))
+		pic = self.doc.add_picture(pic_name, width = Inches(pic_width))
+		self.saveAsDoc()
+
+
 
 # the working menu
 choice = int(raw_input("To open a new Word document - Enter 1" + '\n' + "To open an existing Word document - Enter 2 : "))
@@ -118,15 +134,16 @@ elif choice == 2:
 	document = docEditor(docName,filename,True)
 document.saveAsDoc()
 Flag = True
-flag2 = True
 while Flag == True:
-	print ('1. To read the file' + '\n' +
+	print ('1. To read the document' + '\n' +
 			'2. To add a Heading' + '\n' +
-			'3. To write a new paragraph on the file' + '\n' +
+			'3. To write a new paragraph on the document' + '\n' +
 			'4. To add a new formatted text' +'\n' +
 			'5. To change the font style and font name of the document' + '\n'
-			'6. To add a new Table and then display it')
+			'6. To add a new Table and then display it' + '\n'
+			'7. To add Picture to the document ')
 	ch = int(raw_input("Enter your choice number: "))
+	flag2 = True
 	if ch == 1:
 		print(document.getFullText())    # to display the text
 	elif ch == 2:
@@ -149,6 +166,8 @@ while Flag == True:
 		document.changeDocFont(name, size)
 	elif ch == 6:
 		document.makeTable()
+	elif ch == 7:
+		document.addPicture()
 	another_operation = raw_input("Do You want to perform another operation? y or n: ").upper()
 	if another_operation == 'N' or another_operation == 'No':
 		Flag = False
