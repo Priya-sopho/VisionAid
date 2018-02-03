@@ -10,7 +10,7 @@ import re
 sense = wincl.Dispatch("SAPI.SpVoice")
 
 #Pdf file to listen
-file = 'C:\Users\Priya Rani\Desktop\Wedu\SOP.pdf' 
+file = "C:\Users\Priya Rani\Desktop\Wedu\Ring-sizing.pdf" 
 
 class pdfReader:
 	#line no.
@@ -30,7 +30,7 @@ class pdfReader:
 		
 		#decrypting password
 		if password != '':
-        self.pdfReader.decrypt(password)
+			self.pdfReader.decrypt(password)
 
 		#Number of pages in pdf file
 		self.total_pages = self.pdfReader.numPages
@@ -42,8 +42,8 @@ class pdfReader:
 		sense.Speak('There are '+ n2w.num2words(self.total_pages,to='cardinal') + page)
 
     
-    def __del__(self):
-    	self.pdfFileObj.close()
+	def __del__(self):
+		self.pdfFileObj.close()
 
 	def  findText(self,s):
 		pages = []
@@ -70,7 +70,7 @@ class pdfReader:
 	def start(self):
 		try:
 			#global _page,_line
-			if(self._page > self.total_pages):
+			if(self._page >= self.total_pages):
 				sense.speak('We reached the end of file')
 				return 
 			sense.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
@@ -80,6 +80,8 @@ class pdfReader:
 			
 			# extracting text from page
 			lines = pageObj.extractText().splitlines()
+			if len(lines) == 0:
+				sense.speak('Unable to detect the content')
 			while self._line < len(lines):
 				sense.Speak(lines[self._line])
 				self._line += 1		
