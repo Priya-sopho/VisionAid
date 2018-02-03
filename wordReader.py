@@ -1,8 +1,8 @@
-#pip install PyPDF2
+#pip install python-docx
 #pip install pypiwin32 or pywin32
 #pip install num2words
 # importing required modules
-import PyPDF2
+from docx import Document
 import win32com.client as wincl
 import num2words as n2w
 import os 
@@ -10,42 +10,51 @@ import re
 sense = wincl.Dispatch("SAPI.SpVoice")
 
 #Pdf file to listen
-file = 'C:\Users\Priya Rani\Desktop\Wedu\SOP.pdf' 
+file = 'C:\Users\Priya Rani\Desktop\Wedu\LDP.docx' 
 
 class wordReader:
 	#line no.
 	_line = 0
-	#page no.
-	_page = 0
-	task = ['Start','Pause','Resume','Exit','Rewind','Repeat','Skip current page','Jump on a page',
+	#para no.
+	_para = 0
+	task = ['Start','Pause','Resume','Exit','Rewind','Repeat','Skip current para','Jump on a para',
 		'Search','Change speed']
 
 	def __init__(self, file):
 		 
-		# creating a pdf file object
-		self.pdfFileObj = open(file, 'rb') 
+		# creating a file object
+		self.FileObj = open(file, 'rb') 
 			 
-		# creating a pdf reader object
-		self.pdfReader = PyPDF2.PdfFileReader(self.pdfFileObj)
-			 
-		#Number of pages in pdf file
-		self.total_pages = self.pdfReader.numPages
-		if self.total_pages>1:
-			page = 'pages.'
-		else:
-			page = 'page.'
+		# creating a document object
+		self.document = Document(self.FileObj)
 
-		sense.Speak('There are '+ n2w.num2words(self.total_pages,to='cardinal') + page)
+		self.paragraphs = self.document.paragraphs
+	
+		self.paragraphs = [p for p in self.paragraphs if len(p.text) != 0]		 
+		#Number of paras in doc file
+		self.total_paras = len(self.paragraphs)
+		if self.total_paras>1:
+			para = 'paragraphs.'
+		else:
+			para = 'paragraph.'
+
+		sense.Speak('There are '+ n2w.num2words(self.total_paras,to='cardinal') + para)
+
+	def __del__(self):
+	  	self.FileObj.close()
 
 	def  findText(self,s):
-		pages = []
-		s = re.compile(s.lower())
-		for i in range(self.pdfReader.getNumPages()):
-			content = self.pdfReader.getPage(i).extractText().lower()
+		paras = []
+		s = re.compile(s,re.I)
+		i = 1
+		for para in self.paragraphs:
+			content = para.text
+			#print(content)
 			if s.search(content) is not None:
-				if i not in pages:
-					pages.append(i)
-		return pages
+				if i not in paras:
+					paras.append(i)
+			i += 1		
+		return paras
 
 
 	def menu(self):
@@ -61,22 +70,22 @@ class wordReader:
 	
 	def start(self):
 		try:
-			#global _page,_line
-			if(self._page > self.total_pages):
-				sense.speak('We reached the end of file')
+			if(self._para >= self.total_paras):
+				sense.speak('We reached the end of the doc file')
 				return 
-			sense.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
+			sense.Speak(n2w.num2words(self._para+1, to='ordinal') + 'para') 
 			
-			# creating a page object
-			pageObj = self.pdfReader.getPage(self._page)
+			# creating a para object
+			paraObj = self.paragraphs[self._para]
 			
-			# extracting text from page
-			lines = pageObj.extractText().splitlines()
+			# extracting text from para
+			lines = paraObj.text.splitlines()
 			while self._line < len(lines):
 				sense.Speak(lines[self._line])
 				self._line += 1		
-			self._page += 1
+			self._para += 1
 			self._line = 0
+			self.start()
 		except KeyboardInterrupt:
 			sense.Speak('Pausing..')
 			response = int(raw_input())
@@ -90,21 +99,24 @@ class wordReader:
 
 	def resume(self):
 		
-		# creating a page object
-		pageObj = self.pdfReader.getPage(self._page)
+		if(self._para >= self.total_paras):
+				sense.speak('We reached the end of the doc file')
+				return 
 		
-		# extracting text from page
-		lines = pageObj.extractText().splitlines()
+		# creating a para object
+		paraObj = self.paragraphs[self._para]
+		
+		# extracting text from para
+		lines = paraObj.text.splitlines()
 		while self._line < len(lines):
 			sense.Speak(lines[self._line])
 			self._line += 1		
-		self._page += 1
+		self._para += 1
 		self._line = 0
+		self.start() #begin with next para
 
 	def exit(self):		
-		# closing the pdf file object
-		self.pdfFileObj.close()
-		sense.Speak('Exiting pdf reading task')
+		sense.Speak('Exiting word document reading task')
 		os._exit(1)
 		
 	def repeat(self):
@@ -112,49 +124,49 @@ class wordReader:
 		self._line -= 1
 		if(self._line<0):
 			self._line = 0
-			self._page -= 1
-		if(self._page < 0):
-			self._page = 0
+			self._para -= 1
+		if(self._para < 0):
+			self._para = 0
 		self.resume()
 
 	def rewind(self):
 		self._line -= 10
 		if(self._line<0):
 			self._line = 0
-			self._page -= 0
-		if(self._page < 0):
-			self._page = 0
+			self._para -= 1
+		if(self._para < 0):
+			self._para = 0
 		self.resume()	
 
 
 	def skip(self):
-		sense.Speak('Moving to next page')
-		self._page += 1
+		sense.Speak('Moving to next paragraph')
+		self._para += 1
 		self._line = 0
 		self.start()
 
 		
 	def jump(self):
-		sense.Speak('Tell me the page number to jump on?')
-		self._page = int(raw_input())-1
-		if(self._page < 0):
-			self._page = 0
-		if(self._page > self.total_pages):
-			self._page = self.total_pages -1
+		sense.Speak('Tell me the para number to jump on?')
+		self._para = int(raw_input())-1
+		if(self._para < 0):
+			self._para = 0
+		if(self._para > self.total_paras):
+			self._para = self.total_paras -1
 		self.start()
 		
 	def search(self):
 		sense.Speak('What you want to search?')
 		r = raw_input()
-		pages = self.findText(r)
-		if len(pages) == 0:
+		paras = self.findText(r)
+		if len(paras) == 0:
 			sense.Speak(r+' not found!!')
 		else :	
-			if len(pages)>1:
-				page = 'pages.'
+			if len(paras)>1:
+				para = 'paragraphs.'
 			else:
-				page = 'page.'
-			sense.Speak(r+ ' found in '+ n2w.num2words(len(pages), to='cardinal') + page)
+				para = 'paragraph.'
+			sense.Speak(r+ ' found in '+ n2w.num2words(len(paras), to='cardinal') + para)
 		self.resume()	
 
 	def change_speed(self):

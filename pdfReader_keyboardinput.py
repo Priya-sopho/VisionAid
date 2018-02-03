@@ -20,14 +20,18 @@ class pdfReader:
 	task = ['Start','Pause','Resume','Exit','Rewind','Repeat','Skip current page','Jump on a page',
 		'Search','Change speed']
 
-	def __init__(self, file):
+	def __init__(self, file,password = ''):
 		 
 		# creating a pdf file object
 		self.pdfFileObj = open(file, 'rb') 
 			 
 		# creating a pdf reader object
 		self.pdfReader = PyPDF2.PdfFileReader(self.pdfFileObj)
-			 
+		
+		#decrypting password
+		if password != '':
+        self.pdfReader.decrypt(password)
+
 		#Number of pages in pdf file
 		self.total_pages = self.pdfReader.numPages
 		if self.total_pages>1:
@@ -36,6 +40,10 @@ class pdfReader:
 			page = 'page.'
 
 		sense.Speak('There are '+ n2w.num2words(self.total_pages,to='cardinal') + page)
+
+    
+    def __del__(self):
+    	self.pdfFileObj.close()
 
 	def  findText(self,s):
 		pages = []
@@ -77,6 +85,7 @@ class pdfReader:
 				self._line += 1		
 			self._page += 1
 			self._line = 0
+			self.start()
 		except KeyboardInterrupt:
 			sense.Speak('Pausing..')
 			response = int(raw_input())
@@ -100,10 +109,9 @@ class pdfReader:
 			self._line += 1		
 		self._page += 1
 		self._line = 0
+		self.start()
 
 	def exit(self):		
-		# closing the pdf file object
-		self.pdfFileObj.close()
 		sense.Speak('Exiting pdf reading task')
 		os._exit(1)
 		
@@ -121,7 +129,7 @@ class pdfReader:
 		self._line -= 10
 		if(self._line<0):
 			self._line = 0
-			self._page -= 0
+			self._page -= 1
 		if(self._page < 0):
 			self._page = 0
 		self.resume()	
@@ -168,6 +176,8 @@ class pdfReader:
 	def action(self,choice):
 		try:
 			if choice == 1:
+				self._page = 0
+				self._line = 0
 				self.start()
 			elif choice == 2:
 				self.pause()
