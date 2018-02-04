@@ -1,0 +1,148 @@
+﻿  stdafx.cpp
+  WindowsProject1.cpp
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(61): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(61): error C2146: syntax error: missing ';' before identifier 'AUX_DATA'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(72): error C2504: 'CNoTrackObject': base class undefined
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(92): error C2061: syntax error: identifier '_afxCtl3dState'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(94): error C2143: syntax error: missing ';' before '<class-head>'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(94): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(95): error C2504: 'CNoTrackObject': base class undefined
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(100): error C2061: syntax error: identifier '_afxCtl3dThread'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(102): error C3646: '_AFX_CTL3D_STATE': unknown override specifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(102): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(102): error C2059: syntax error: '*'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(110): error C2504: 'CNoTrackObject': base class undefined
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(115): error C2143: syntax error: missing ';' before '*'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(115): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(115): error C2238: unexpected token(s) preceding ';'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(117): error C3646: 'strFind': unknown override specifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(117): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(118): error C3646: 'strReplace': unknown override specifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(118): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(134): error C2061: syntax error: identifier '_afxRichEditState'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(136): error C3646: '_AFX_RICHEDIT_STATE': unknown override specifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(136): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(136): error C2059: syntax error: '*'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(147): error C2143: syntax error: missing ';' before '*'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(147): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(147): error C2238: unexpected token(s) preceding ';'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(148): error C2143: syntax error: missing ';' before '*'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(148): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(148): error C2238: unexpected token(s) preceding ';'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(151): error C2061: syntax error: identifier 'CFrameWnd'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(153): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(153): error C3861: 'AfxGetThreadState': identifier not found
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(154): error C2065: 'pOldRoutingFrame': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(154): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(154): error C2227: left of '->m_pRoutingFrame' must point to class/struct/union/generic type
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(154): note: type is 'unknown-type'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(155): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(155): error C2227: left of '->m_pRoutingFrame' must point to class/struct/union/generic type
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(155): note: type is 'unknown-type'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(155): error C2065: 'pNewRoutingFrame': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(159): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(159): error C2227: left of '->m_pRoutingFrame' must point to class/struct/union/generic type
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(159): note: type is 'unknown-type'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(159): error C2065: 'pOldRoutingFrame': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(166): error C2143: syntax error: missing ';' before '*'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(166): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(166): error C2238: unexpected token(s) preceding ';'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(167): error C2143: syntax error: missing ';' before '*'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(167): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(167): error C2238: unexpected token(s) preceding ';'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(170): error C2061: syntax error: identifier 'CView'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(172): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(172): error C3861: 'AfxGetThreadState': identifier not found
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(173): error C2065: 'pOldRoutingView': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(173): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(173): error C2227: left of '->m_pRoutingView' must point to class/struct/union/generic type
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(173): note: type is 'unknown-type'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(174): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(174): error C2227: left of '->m_pRoutingView' must point to class/struct/union/generic type
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(174): note: type is 'unknown-type'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(174): error C2065: 'pNewRoutingView': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(178): error C2065: 'pThreadState': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(178): error C2227: left of '->m_pRoutingView' must point to class/struct/union/generic type
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(178): note: type is 'unknown-type'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(178): error C2065: 'pOldRoutingView': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(226): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(226): error C2146: syntax error: missing ';' before identifier 'AfxEndDeferRegisterClass'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(226): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(315): error C2182: 'AFXAPI': illegal use of type 'void'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(315): error C2040: 'AFXAPI': 'int' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(315): error C2146: syntax error: missing ';' before identifier 'AfxCancelModes'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(315): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(316): error C2371: 'AFXAPI': redefinition; different basic types
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(102): note: see declaration of 'AFXAPI'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(316): error C2146: syntax error: missing ';' before identifier 'AfxGetParentOwner'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(316): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(317): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(317): error C2146: syntax error: missing ';' before identifier 'AfxIsDescendant'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(317): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(318): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(318): error C2146: syntax error: missing ';' before identifier 'AfxHelpEnabled'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(318): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(319): error C2182: 'AFXAPI': illegal use of type 'void'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(319): error C2040: 'AFXAPI': 'int' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(319): error C2146: syntax error: missing ';' before identifier 'AfxDeleteObject'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(319): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(320): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(320): error C2146: syntax error: missing ';' before identifier 'AfxCustomLogFont'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(320): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2146: syntax error: missing ';' before identifier 'AfxGetPropSheetFont'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2065: 'CString': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2065: 'strFace': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2065: 'wSize': undeclared identifier
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2275: 'WORD': illegal use of this type as an expression
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\shared\minwindef.h(159): note: see declaration of 'WORD'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2275: 'BOOL': illegal use of this type as an expression
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\shared\minwindef.h(157): note: see declaration of 'BOOL'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(321): error C2146: syntax error: missing ')' before identifier 'bWizard'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(323): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(323): error C2146: syntax error: missing ';' before identifier '_AfxIsComboBoxControl'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(323): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(324): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(324): error C2146: syntax error: missing ';' before identifier '_AfxCheckCenterDialog'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(324): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(325): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(325): error C2146: syntax error: missing ';' before identifier '_AfxCompareClassName'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(325): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(326): error C2371: 'AFXAPI': redefinition; different basic types
+  c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(102): note: see declaration of 'AFXAPI'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(326): error C2146: syntax error: missing ';' before identifier '_AfxChildWindowFromPoint'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(326): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(334): error C2040: 'AFXAPI': 'DWORD' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(334): error C2146: syntax error: missing ';' before identifier '_AfxGetComCtlVersion'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(334): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(350): warning C4005: '_countof': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdlib.h(22): note: see previous definition of '_countof'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(353): error C2040: 'AFX_CDECL': 'int' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(353): error C2146: syntax error: missing ';' before identifier 'AfxCriticalNewHandler'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(353): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(356): error C2182: 'AFXAPI': illegal use of type 'void'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(356): error C2040: 'AFXAPI': 'int' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(356): error C2146: syntax error: missing ';' before identifier 'AfxGlobalFree'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(356): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(361): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(361): error C2146: syntax error: missing ';' before identifier '_simpleNotSupportedException'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(362): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(362): error C2146: syntax error: missing ';' before identifier '_simpleMemoryException'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(363): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(363): error C2146: syntax error: missing ';' before identifier '_simpleUserException'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(364): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(364): error C2146: syntax error: missing ';' before identifier '_simpleResourceException'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(407): error C2182: 'AFXAPI': illegal use of type 'void'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(407): error C2040: 'AFXAPI': 'int' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(407): error C2146: syntax error: missing ';' before identifier 'AfxLockGlobals'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(407): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(408): error C2182: 'AFXAPI': illegal use of type 'void'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(408): error C2040: 'AFXAPI': 'int' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(408): error C2146: syntax error: missing ';' before identifier 'AfxUnlockGlobals'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(408): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(409): error C2040: 'AFXAPI': 'BOOL' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(409): error C2146: syntax error: missing ';' before identifier 'AfxCriticalInit'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(409): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(410): error C2182: 'AFXAPI': illegal use of type 'void'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(410): error C2040: 'AFXAPI': 'int' differs in levels of indirection from 'int *'
+c:\users\skc\source\repos\windowsproject1\windowsproject1\afximpl.h(410): fatal error C1003: error count exceeds 100; stopping compilation
