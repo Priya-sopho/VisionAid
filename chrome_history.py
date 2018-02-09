@@ -1,4 +1,5 @@
 def export():
+	import json
 	from os import environ
 	from os.path import expanduser, join
 	from platform import system
@@ -7,9 +8,9 @@ def export():
 	from sys import stderr
 	from tempfile import mkdtemp
 
-	script_version = "1.2.1"
+	# script_version = "1.2.1"
 
-	# html escaping code from http://wiki.python.org/moin/EscapingHtml
+	# # html escaping code from http://wiki.python.org/moin/EscapingHtml
 
 	html_escape_table = {
 		"&": "&amp;",
@@ -19,9 +20,7 @@ def export():
 		"<": "&lt;",
 		}
 
-	output_file_template = """<dl><dt><h3>History</h3>
-
-	<dl><p>{items}</dl></p>\n</dl>"""
+	output_file_template = """{items}\n"""
 
 	def html_escape(text):
 		return ''.join(html_escape_table.get(c,c) for c in text)
@@ -83,13 +82,13 @@ def export():
 		rmtree(temp_dir)
 		exit(1)
 
-	items = ""
+	items = []
 	for row in curs:
 		if len(row[1]) > 0:
-			items += '<dt><a href="{}">{}</a>\n'.format(sanitize(row[0]), sanitize(row[1]))
+			# print row[0],row[1]
+			items.append('url:"{}",name:"{}"'.format(sanitize(row[0]), sanitize(row[1])))
 
+	json.dump(items,output_file)
 	connection.close()
-	rmtree(temp_dir)
-
-	output_file.write(output_file_template.format(items=items))
 	output_file.close()
+
