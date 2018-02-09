@@ -59,7 +59,12 @@ class webBrowser:
 	#Bookmarks exported to a file "bookmarks"
 	def accessBookmarks(self):
 		import chrome_bookmarks as bookmarks
-		bookmarks.export()
+		bookmarks =  bookmarks.export()
+		#Relace with reader function
+		for bookmark in bookmarks:
+			print(bookmark['name']).encode('utf-8')
+			print(bookmark['url']).encode('utf-8')
+
 
 	#History exported to a file "history"
 	def accessHistory(self):

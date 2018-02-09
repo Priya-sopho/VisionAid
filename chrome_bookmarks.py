@@ -27,7 +27,9 @@ def export():
 			exit(1)
 
 	# Read, convert, and write the bookmarks
-	output_file = open("bookmarks","w+")
+	#output_file = open("bookmarks","w+")
 	contents = loads(input_file.read())
+	contents = contents['roots']['bookmark_bar']['children']
 	input_file.close()
-	json.dump(contents,output_file)
+	#json.dump(contents,output_file)
+	return contents
