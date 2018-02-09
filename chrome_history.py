@@ -71,16 +71,16 @@ def export():
 	curs = connection.cursor()
 
 	try:
-		curs.execute("SELECT url, title FROM urls")
+		curs.execute("SELECT url, title, visit_count, last_visit_time FROM urls")
 	except sqlite3.OperationalError:
-		print('There was an error reading data from the file "{}".'.format(args.input_file))
+		print('There was an error reading data from the file')
 		rmtree(temp_dir)
 		exit(1)
 
 	items = []
 	for row in curs:
 		if len(row[1]) > 0:
-			items.append('url:"{}",name:"{}"'.format(sanitize(row[0]), sanitize(row[1])))
+			items.append('url:"{}",name:"{}",visit_count:"{}",last_visit_time:"{}"'.format(sanitize(row[0]), sanitize(row[1]),row[2],row[3]))
 
 	json.dump(items,output_file)
 	connection.close()
