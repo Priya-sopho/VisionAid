@@ -1,3 +1,12 @@
+#Run the following commands to install required libraries
+	#1.Speech recognition
+	# pip install SpeechRecognition
+	#2.Google Search
+	# pip install beautifulsoup4
+	# pip install google
+	#3.GUI 
+	# pip install pyautogui
+
 class webBrowser:
 	#function to listen to voice commands and then return a corresponding string 
 	def listen(self,chunk_size=2048,say = "Say Something"):

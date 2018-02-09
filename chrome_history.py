@@ -7,11 +7,6 @@ def export():
 	import sqlite3
 	from sys import stderr
 	from tempfile import mkdtemp
-
-	# script_version = "1.2.1"
-
-	# # html escaping code from http://wiki.python.org/moin/EscapingHtml
-
 	html_escape_table = {
 		"&": "&amp;",
 		'"': "&quot;",
@@ -85,7 +80,6 @@ def export():
 	items = []
 	for row in curs:
 		if len(row[1]) > 0:
-			# print row[0],row[1]
 			items.append('url:"{}",name:"{}"'.format(sanitize(row[0]), sanitize(row[1])))
 
 	json.dump(items,output_file)
