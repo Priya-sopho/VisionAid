@@ -7,6 +7,7 @@ def export():
 	import sqlite3
 	from sys import stderr
 	from tempfile import mkdtemp
+	import datetime
 	html_escape_table = {
 		"&": "&amp;",
 		'"': "&quot;",
@@ -80,7 +81,9 @@ def export():
 	items = []
 	for row in curs:
 		if len(row[1]) > 0:
-			items.append('url:"{}",name:"{}",visit_count:"{}",last_visit_time:"{}"'.format(sanitize(row[0]), sanitize(row[1]),row[2],row[3]))
+			converted_last_visit = (datetime.datetime(1601, 1, 1) + datetime.timedelta(microseconds=row[3])).isoformat()
+			# print converted_last_visit
+			items.append('url:"{}",name:"{}",visit_count:"{}",last_visit_time:"{}"'.format(sanitize(row[0]), sanitize(row[1]),row[2],converted_last_visit))
 
 	json.dump(items,output_file)
 	connection.close()
