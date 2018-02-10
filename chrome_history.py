@@ -57,7 +57,7 @@ def export():
 
 	# Make a copy of the database, open it, process its contents, and write the
 	# output file
-	output_file = open("history","w+")
+	#output_file = open("history","w+")
 	temp_dir = mkdtemp(prefix='py-chrome-history-')
 	copied_file = join(temp_dir, 'History')
 	copy(input_filename, copied_file)
@@ -85,7 +85,8 @@ def export():
 			# print converted_last_visit
 			items.append('url:"{}",name:"{}",visit_count:"{}",last_visit_time:"{}"'.format(sanitize(row[0]), sanitize(row[1]),row[2],converted_last_visit))
 
-	json.dump(items,output_file)
+	return items
+	#json.dump(items,output_file)
 	connection.close()
-	output_file.close()
+	#output_file.close()
 
