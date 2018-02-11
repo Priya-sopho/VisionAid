@@ -10,7 +10,7 @@ import re
 sense = wincl.Dispatch("SAPI.SpVoice")
 
 #Pdf file to listen
-file = "C:\Users\Priya Rani\Desktop\Wedu\Ring-sizing.pdf" 
+file = "C:\Users\Priya Rani\Desktop\Wedu\SOP.pdf" 
 
 class pdfReader:
 	#line no.
@@ -165,6 +165,8 @@ class pdfReader:
 			else:
 				page = 'page.'
 			sense.Speak(r+ ' found in '+ n2w.num2words(len(pages), to='cardinal') + page)
+			for p in pages:
+				sense.Speak('Found at page number'+ n2w.num2words(p,to='cardinal'))
 		self.resume()	
 
 	def change_speed(self):
