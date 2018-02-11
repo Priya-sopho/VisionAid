@@ -43,9 +43,12 @@ class pdfReader:
 		# extracting text from page
 		self.lines = self.pageObj.extractText().splitlines()
 		
-		#Pause button 
+		#Lock
 		self.lock = threading.Lock()  #Initially pause is on
 		
+		#Pause button
+		self.pause_key = 0
+
 		kb = threading.Thread(target=self.listenKeyboard)
 		kb.start()
 		# sp = threading.Thread(target=self.start)
@@ -72,9 +75,10 @@ class pdfReader:
 			    self.repeat() 
 		        
 		except AttributeError:
-			if (key == keyboard.Key.space) and self.lock.locked():
-			    self.lock.release()
-			    #self.resume()
+			if (key == keyboard.Key.space) and self.pause_key:
+				self.pause_key = 0
+				self.lock.release()
+				    #self.resume()
 			elif key == keyboard.Key.space:
 				self.lock.acquire()
 				self.pause()
@@ -141,6 +145,7 @@ class pdfReader:
 	  Pause pdf reading task
 	"""
 	def pause(self):
+		self.pause_key = 1
 		voice.Speak('Pausing')
 		
 		
@@ -170,7 +175,7 @@ class pdfReader:
 			if len(self.lines) == 0:
 				voice.Speak('Unable to detect the content')
 			while self._line < len(self.lines):
-				self.lock.acquire(True)
+				self.lock.acquire()
 				voice.Speak(self.lines[self._line])
 				self._line += 1		
 				self.lock.release()
@@ -229,15 +234,18 @@ class pdfReader:
 			self._page -= 1
 			if(self._page < 0):
 				self._page = 0
-			#if on first line of page,then tell page number
-			if self._line == 0:
-				voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
-			
 			# creating a page object
 			self.pageObj = self.pdfReader.getPage(self._page)
 			
 			# extracting text from page
 			self.lines = self.pageObj.extractText().splitlines()
+			
+			self._line = len(self.lines) - 10
+			if(self._line < 0):
+				self._line = 0
+			#if on first line of page,then tell page number
+			if self._line == 0:
+				voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
 			if len(self.lines) == 0:
 				voice.Speak('Unable to detect the content')
 		self.lock.release()
