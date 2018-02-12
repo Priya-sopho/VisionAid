@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Requires PyAudio and PySpeech.
+# Try following commands for now: "what time is it", "how are you"
 
 import speech_recognition as sr
 import pygame as pg
