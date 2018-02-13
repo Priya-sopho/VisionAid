@@ -88,7 +88,21 @@ class webBrowser:
 	#History exported to a file "history"
 	def accessHistory(self):
 		import chrome_history as history 
-		history.export()
+		hist = history.export()
+		for h in hist:
+			data = h.split(',')
+			for d in data:
+				print(d)
+		#Replace with reader function
+		"""
+		#for h in hist:
+			
+			print(h['url']).encode('utf-8')
+			print(h['name']).encode('utf-8')
+			print(h['visit_count']).encode('utf-8')
+			print(h['last_visit_time']).encode('utf-8')
+			"""
+
 
 instance = webBrowser()
 instance.googleSearch()
