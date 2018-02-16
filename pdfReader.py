@@ -192,13 +192,7 @@ class pdfReader:
 			if(self._page >= self.total_pages):
 				voice.Speak('We reached the end of file')
 				self.exit()
-			
-			#if on first line of page,then tell page number
-			if self._line == 0:
-				self.lock.acquire()
-				voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
-				self.lock.release()
-			
+						
 			# creating a page object
 			self.pageObj = self.pdfReader.getPage(self._page)
 			
@@ -207,6 +201,12 @@ class pdfReader:
 			if len(self.lines) == 0:
 				voice.Speak('Unable to detect the content')
 			while self._line < len(self.lines):
+				#if on first line of page,then tell page number
+				if self._line == 0:
+					self.lock.acquire()
+					voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
+					self.lock.release()
+				
 				self.lock.acquire()
 				voice.Speak(self.lines[self._line])
 				self._line += 1		
@@ -235,15 +235,13 @@ class pdfReader:
 	"""	
 	def repeat(self):
 		self.lock.acquire()
+		voice.Speak('Repeating')
 		self._line -= 1
 		if(self._line<0):
 			self._line = 0
 			self._page -= 1
 			if(self._page < 0):
 				self._page = 0
-			#if on first line of page,then tell page number
-			if self._line == 0:
-				voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
 			
 			# creating a page object
 			self.pageObj = self.pdfReader.getPage(self._page)
@@ -260,6 +258,7 @@ class pdfReader:
 	"""
 	def rewind(self):
 		self.lock.acquire()
+		voice.Speak('Rewinding')
 		self._line -= 10
 		if(self._line<0):
 			self._line = 0
@@ -275,9 +274,6 @@ class pdfReader:
 			self._line = len(self.lines) - 10
 			if(self._line < 0):
 				self._line = 0
-			#if on first line of page,then tell page number
-			if self._line == 0:
-				voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
 			if len(self.lines) == 0:
 				voice.Speak('Unable to detect the content')
 		self.lock.release()
@@ -295,10 +291,6 @@ class pdfReader:
 			voice.Speak('We reached the end of file')
 			self.exit()
 
-		#if on first line of page,then tell page number
-		if self._line == 0:
-			voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
-		
 		# creating a page object
 		self.pageObj = self.pdfReader.getPage(self._page)
 		
@@ -328,9 +320,6 @@ class pdfReader:
 			voice.Speak('We reached the end of file')
 			self.exit()
 		self._line = 0
-		#if on first line of page,then tell page number
-		if self._line == 0:
-			voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
 		
 		# creating a page object
 		self.pageObj = self.pdfReader.getPage(self._page)

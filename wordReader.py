@@ -110,7 +110,7 @@ class wordReader:
 			    self.change_speed(-1)
 			elif(key == keyboard.Key.right):
 			    self.skip()
-			elif(key == keyboard.Key.left):
+			elif(key == keyboard.Key.left): 
 			    self.rewind()
 			elif(key == keyboard.Key.esc):
 			    self.exit()
