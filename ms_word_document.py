@@ -1,23 +1,38 @@
 from __future__ import print_function
-import docx
-from docx.shared import Pt
-from docx.shared import Inches
+from docx import Document
+from docx.shared import Pt,Inches
 from docx.enum.style import WD_STYLE_TYPE
+import threading
+import os
+import win32com.client as wincl
+from pynput import keyboard
+voice = wincl.Dispatch("SAPI.SpVoice")
 
 
-class docEditor(object):
-	"""docstring for docEditor"""
-	def __init__(self, docName, filename, paraName = None):
-		super(docEditor, self).__init__()
-		self.doc = docName
+class docEditor:
+	def __init__(self):
+
+		voice.Speak("Word Document. Give the name of the file: ")
+		filename = raw_input()
 		if '.docx' not in filename:
 			filename = filename + '.docx'
 		self.filename = filename
-		if (paraName != None):
-			self.para = self.doc.paragraphs[-1]
-		else:
-			self.para = None
+		self.doc = Document(filename)
+		self.para = self.doc.add_paragraph('')
+
+		kb = threading.Thread(target=self.listenKeyboard)
+		kb.start()
+
+		self.menu()
 		
+	def __del__(self):
+		self.doc.close()
+
+	
+	#Exit 
+	def exit(self):
+		os._exit(1)
+
 # to get the whole document text for read operation
 	def getFullText(self):
 		fulltext = []
@@ -32,7 +47,7 @@ class docEditor(object):
 # Enter the text to be added
 	def enterText(self):
 		# text = raw_input("Enter the text : ")
-		print("Enter the text: ")
+		voice.Speak("Enter the text: ")
 		lines = []
 		while True:
 			line = raw_input()
@@ -48,15 +63,12 @@ class docEditor(object):
 		text = self.enterText()
 		self.para = self.doc.add_paragraph(text)
 		self.saveAsDoc()
-		# return para
-# to set the paragraph object
-	def setPara(self, paragraph):
-		self.para = paragraph
-
+		
 # add formatted text in the running paragraph
 	def formattedtext(self,formats):
 		types = formats.split(' ')
-		lineBreak = raw_input("Do u want to enter formatted text on a new line? (Y or N): ").upper()
+		voice.Speak("Do u want to enter formatted text on a new line? (Y or N): ")
+		lineBreak = raw_input().upper()
 		run = self.para.add_run()
 		style = self.para.style
 		font  = style.font
@@ -81,7 +93,7 @@ class docEditor(object):
 		col_count = int(raw_input("Columns: "))
 		table = self.doc.add_table(row_count,col_count)
 		table.style.name = 'TableGrid'
-		print("Enter the values in the table row by row: ")
+		voice.Speak("Enter the values in the table row by row: ")
 		for row in table.rows:
 			for cell in row.cells:
 				cell.text = raw_input()	
@@ -116,58 +128,77 @@ class docEditor(object):
 		self.saveAsDoc()
 
 
+	def menu(self):
+		Flag = True
+		while Flag == True:
+			voice.Speak('Do you want to listen to menu? (Y or N)')
+			ch = raw_input().upper()
+			if(ch == 'Y' or ch == 'Yes'):
+				voice.Speak('1. To read the document' + '\n' +
+						'2. To add a Heading' + '\n' +
+						'3. To write a new paragraph on the document' + '\n' +
+						'4. To add a new formatted text' +'\n' +
+						'5. To change the font style and font name of the document' + '\n'
+						'6. To add a new Table and then display it' + '\n'
+						'7. To add Picture to the document ')
+			voice.Speak("Enter your choice number: ")
+			try:
+				ch = int(raw_input())
+				flag2 = True
+			except:
+				voice.Speak('Oops you have not entered a number')
 
-# the working menu
-choice = int(raw_input("To open a new Word document - Enter 1" + '\n' + "To open an existing Word document - Enter 2 : "))
-filename=""
-if choice == 1 :
-	docName = docx.Document()
-	filename = raw_input("Give the name of the new file: ")
-	if ".docx" not in filename:
-		filename = filename + ".docx"
-	document = docEditor(docName,filename)
-elif choice == 2:
-	filename = raw_input("Enter the name of existing document: ")
-	if ".docx" not in filename:
-		filename = filename + ".docx"
-		docName = docx.Document(filename)
-	document = docEditor(docName,filename,True)
-document.saveAsDoc()
-Flag = True
-while Flag == True:
-	print ('1. To read the document' + '\n' +
-			'2. To add a Heading' + '\n' +
-			'3. To write a new paragraph on the document' + '\n' +
-			'4. To add a new formatted text' +'\n' +
-			'5. To change the font style and font name of the document' + '\n'
-			'6. To add a new Table and then display it' + '\n'
-			'7. To add Picture to the document ')
-	ch = int(raw_input("Enter your choice number: "))
-	flag2 = True
-	if ch == 1:
-		print(document.getFullText())    # to display the text
-	elif ch == 2:
-		document.addHeading()
-	elif ch == 3:
-		document.addNewPara()
-		# document.setPara(para)
-	elif ch == 4:
-		while flag2 == True:
-			new_format = ''
-			print('Enter your choice: bold(B), italic(I) or underline(U) (seperated by spaces): ')
-			new_format = raw_input().upper()
-			document.formattedtext(new_format)
-			Continue = raw_input("Do You want to add more formatted text? y or n: ").upper()
-			if Continue == 'N' or Continue == 'NO':
-				flag2 = False
-	elif ch == 5:
-		name, size = raw_input("Enter the font name and font size(space seperated):").split(' ')
-		size = int(size)
-		document.changeDocFont(name, size)
-	elif ch == 6:
-		document.makeTable()
-	elif ch == 7:
-		document.addPicture()
-	another_operation = raw_input("Do You want to perform another operation? y or n: ").upper()
-	if another_operation == 'N' or another_operation == 'No':
-		Flag = False
+			if flag2:
+				if ch == 1:
+					voice.Speak(self.getFullText())    # to display the text
+				elif ch == 2:
+					self.addHeading()
+				elif ch == 3:
+					self.addNewPara()
+				elif ch == 4:
+					while flag2 == True:
+						new_format = ''
+						voice.Speak('Enter your choice: bold(B), italic(I) or underline(U) (seperated by spaces): ')
+						new_format = raw_input().upper()
+						self.formattedtext(new_format)
+						voice.Speak("Do You want to add more formatted text? y or n: ")
+						Continue = raw_input().upper()
+						if Continue == 'N' or Continue == 'NO':
+							flag2 = False
+				elif ch == 5:
+					voice.Speak("Enter the font name and font size(space seperated):")
+					name, size = raw_input().split(' ')
+					size = int(size)
+					self.changeDocFont(name, size)
+				elif ch == 6:
+					self.makeTable()
+				elif ch == 7:
+					self.addPicture()
+				else:
+					voice.Speak('Invalid chice')
+			voice.Speak("Do You want to perform another operation? y or n: ")		
+			another_operation = raw_input().upper()
+			if another_operation == 'N' or another_operation == 'No':
+				Flag = False
+				self.exit()
+
+	"""
+	 Keyboard listening callback function
+	"""
+	def on_press(self,key):
+		try:
+			voice.Speak('{0}'.format(key.char))
+		except AttributeError:
+			voice.Speak('{0}'.format(key))
+				
+	"""
+	 Listen to keyboard keys
+	"""
+	def listenKeyboard(self):
+	    # Collect events until released
+	    with keyboard.Listener(on_press=self.on_press) as listener:
+	        listener.join()
+	     
+
+
+document = docEditor()
