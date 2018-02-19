@@ -7,20 +7,62 @@
 	#3.GUI 
 	# pip install pyautogui
 
+"""
+	Following keys to be used for keyboard interrupts
+	1. Visit a URL- Space
+	2. Exit - q
+	3. Skip current result - esc
+	4. Bookmark - b
+	5. Access Bookmarks - 
+	6. Access History - 
+	7. Google Search - f
+"""
+import threading,time 
+import msvcrt
+from pynput import keyboard
+import os
+import webbrowser as web
+import io,json
+import datetime
+
 class webBrowser:
-	#function to listen to voice commands and then return a corresponding string 
+	def __init__(self):
+		self.say("Welcome to Web Browsing")
+		kb = threading.Thread(target=self.listenKeyboard)
+		self.url = ""
+
+	def listenKeyboard(self):
+		with keyboard.Listener(on_press=self.onPress) as listener:
+			listener.join()
+
+	def onPress(self,key):
+		while msvcrt.kbhit():
+			msvcrt.getch()
+		try:
+			if key.char == 'q':
+				self.exit()
+			if key.char == 'b':
+				self.createBookmark()
+			if key.char == 'f'
+				self.googleSearch()
+		except AttributeError:
+			if key == keyboard.Key.space:
+				self.visitUrl()
+
+
+	def say(self,line):
+		os.system("say {0}".format(line))
+
 	def listen(self,chunk_size=2048,say = "Say Something"):
-		import speech_recognition as sr
-		# obtain audio from the microphone  
+		import speech_recognition as sr  
 		r = sr.Recognizer()  
 		with sr.Microphone(chunk_size=chunk_size) as source:  
-			print("Please wait. Calibrating microphone...")  
-			# listen for 3 seconds and create the ambient noise energy level  
+			print("Please wait. Calibrating microphone...") 
+			self.say("Please wait. Calibrating microphone...") 
 			r.adjust_for_ambient_noise(source, duration=3)  
-			#Instead of printing "SAY OUT LOUD"
 			print say  
-			audio = r.listen(source)
-			# recognize speech using Google  
+			self.say(say)
+			audio = r.listen(source) 
 			try:  
 				text = r.recognize_google(audio)
 				if(text!=None):
@@ -28,84 +70,71 @@ class webBrowser:
 				else:
 					listen(chunk_size)
 			except sr.UnknownValueError:  
+				self.say("Google could not understand audio")
 				print("Google could not understand audio") 
 				listen(chunk_size)
 			except sr.RequestError as e:  
 				print("Google error; {0}".format(e)) 
 				listen(chunk_size) 
 
+	def exit(self):
+		self.say("Exiting now")
+		while msvcrt.kbhit():
+			msvcrt.getch()
+		os._exit(1)
 
-	#function to run google search from command line
+	def visitUrl(self):
+		self.lock.acquire()
+		self.say("Visiting chosen result")
+		web.open(self.result.link)
+		createHistory()
+		self.lock.release()
+
 	def googleSearch(self):
-		# import webbrowser as wb
-		# from google import search
-		# from urlparse import urlparse
+		from google import google as web
+		self.lock.acquire()
+		self.say("Enter keywords to search")
+		keyWords = raw_input()
+		results = web.search(keyWords,1)
+		self.lock.release()
 
-		# urllist = []
-		# # query = listen(2048,"Google Search Keyword?")
-		# query = raw_input()
-		# print query
-		# for j in search(query, tld="co.in", num=9, stop=1, pause=2):
-		# 	urllist.append(j)
+		for self.result in results:
+			self.lock.acquire()
+			print "Name: ",self.result.name
+			self.say(self.result.name)
+			print "Description: ",self.result.description
+			self.say(self.result.description)
+			self.lock.release()
+			print "----------------"
 
-		# for i in range(0,len(urllist)):
-		# 	url = urlparse(urllist[i])
-		# 	output_text = url.netloc+url.path
-		# 	#SPEAK LOUD
-		# 	print output_text
-		# 	print "Visit this URL? (Yes/No)"
-		# 	ans = listen(256)
-		# 	print ans
-		# 	if(ans=='yes'):
-		# 		wb.open_new(urllist[i])
-		# 		break
-		#CSE ID = 005367157485527424859:9_sflux5spi
-		#API KEY= AIzaSyCijhKn3qzxMnEO2VplN7e7pL2vfJ3--BU
-		query = raw_input()
-		print query
-		from googlesearch.googlesearch import GoogleSearch
-		response = GoogleSearch().search(query,num_results=10)
-		for result in response.results:
-		    print("Title: " + result.title)
-		    print("URL: " + result.url)
-		    print("END-----")
 
 	#Create bookmarks, Web browser must be open and active
 	def createBookmark(self):
-		import pyautogui as gui
-		gui.hotkey('ctrl','d')
-		gui.press('enter')
+		b = {}
+		b["name"] = self.result.name
+		b["url"] = self.result.link
+		b["datetime"] = str(datetime.datetime.now())
+		with open('bookmarks.txt', 'a+') as f:
+  			json.dump(b, f, ensure_ascii=False)
 
 	#Bookmarks exported to a file "bookmarks"
-	def accessBookmarks(self):
-		import chrome_bookmarks as bookmarks
-		bookmarks =  bookmarks.export()
-		#Relace with reader function
-		for bookmark in bookmarks:
-			print(bookmark['name']).encode('utf-8')
-			print(bookmark['url']).encode('utf-8')
+	# def accessBookmarks(self):
+	def createHistory():
+		h = {}
+		h["name"] = self.result.name
+		h["url"] = self.result.link
+		h["datetime"] = str(datetime.datetime.now())
+		with open('history.txt', 'a+') as f:
+  			json.dump(h, f, ensure_ascii=False)
+		
 
-	#History exported to a file "history"
+  	def accessHistory(self):
 	def accessHistory(self):
-		import chrome_history as history 
-		hist = history.export()
-		for h in hist:
-			data = h.split(',')
-			for d in data:
-				print(d)
-		#Replace with reader function
-		"""
-		#for h in hist:
-			
-			print(h['url']).encode('utf-8')
-			print(h['name']).encode('utf-8')
-			print(h['visit_count']).encode('utf-8')
-			print(h['last_visit_time']).encode('utf-8')
-			"""
+		
+
 
 
 instance = webBrowser()
-instance.googleSearch()
 
 
 
