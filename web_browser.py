@@ -24,13 +24,18 @@ import os
 import webbrowser as web
 import io,json
 import datetime
+import win32com.client as wincl
+voice = wincl.Dispatch("SAPI.SpVoice")
 
 class webBrowser:
 	def __init__(self):
 		self.say("Welcome to Web Browsing")
-		kb = threading.Thread(target=self.listenKeyboard)
 		self.url = ""
-
+		#Lock
+		self.lock = threading.Lock()  #Initially pause is on
+		kb = threading.Thread(target=self.listenKeyboard)
+		kb.start()
+		
 	def listenKeyboard(self):
 		with keyboard.Listener(on_press=self.onPress) as listener:
 			listener.join()
@@ -43,7 +48,7 @@ class webBrowser:
 				self.exit()
 			if key.char == 'b':
 				self.createBookmark()
-			if key.char == 'f'
+			if key.char == 'f':
 				self.googleSearch()
 		except AttributeError:
 			if key == keyboard.Key.space:
@@ -51,7 +56,8 @@ class webBrowser:
 
 
 	def say(self,line):
-		os.system("say {0}".format(line))
+		#os.system("say {0}".format(line))
+		voice.Speak(line)
 
 	def listen(self,chunk_size=2048,say = "Say Something"):
 		import speech_recognition as sr  
@@ -129,7 +135,9 @@ class webBrowser:
 		
 
   	def accessHistory(self):
-	def accessHistory(self):
+  		pass
+  	def accessBookmark(self):
+  		pass
 		
 
 
