@@ -20,31 +20,29 @@ class docEditor:
 		try:
 			self.doc = Document(filename)
 		except:
-			voice.Speak('The document cannot be created due to some error.Try to use any other document name!')
-			self.exit()
+		 	try:
+		 		self.doc = Document()
+		 		self.saveAsDoc()
+		 	except:
+		 		voice.Speak('The document cannot be created due to some error.Try to use any other document name!')
+		 		self.exit()
 		
 		self.para = self.doc.add_paragraph('')
 
 		kb = threading.Thread(target=self.listenKeyboard)
 		kb.start()
-
 		self.menu()
 		
 	def __del__(self):
 		self.doc.close()
-
-	
+		
 	#Exit 
 	def exit(self):
 		os._exit(1)
 
-#clear the input flush
-	def clear_input(self):
-		while msvcrt.kbhit():
-			msvcrt.getch()
-
 # to get the whole document text for read operation
 	def getFullText(self):
+		voice.Speak('Content of file')
 		fulltext = []
 		for paras in self.doc.paragraphs:
 			fulltext.append(paras.text)
@@ -57,7 +55,6 @@ class docEditor:
 # Enter the text to be added
 	def enterText(self):
 		voice.Speak("Enter the text: ")
-		self.clear_input()
 		lines = []
 		while True:
 			line = raw_input()
@@ -78,7 +75,7 @@ class docEditor:
 	def formattedtext(self,formats):
 		types = formats.split(' ')
 		voice.Speak("Do u want to enter formatted text on a new line? Yes or No : ")
-		self.clear_input()
+		
 		lineBreak = raw_input().upper()
 		run = self.para.add_run()
 		text = self.enterText()
@@ -102,15 +99,13 @@ class docEditor:
 # to make a new table 
 	def makeTable(self):
 		voice.Speak("Enter the following" + '\n' + 'Rows: ')
-		self.clear_input()
+		
 		row_count = int(raw_input())
 		voice.Speak("Columns: ")
-		self.clear_input()
 		col_count = int(raw_input())
 		table = self.doc.add_table(row_count,col_count)
 		table.style.name = 'TableGrid'
 		voice.Speak("Enter the values in the table row by row: ")
-		self.clear_input()
 		for row in table.rows:
 			for cell in row.cells:
 				cell.text = raw_input()	
@@ -133,27 +128,23 @@ class docEditor:
 # to add a heading to the document
 	def addHeading(self):
 		voice.Speak("Enter the heading level: ")
-		self.clear_input()
 		l = int(raw_input())
 		text = self.enterText()
-		self.doc.add_heading(text, level = l)
+		self.doc.add_heading(text,level = l)
 		self.saveAsDoc()
 
 # to add a picture to the doc file
 	def addPicture(self):
 		voice.Speak("Enter the name of the Picture (with extension i.e. .png or .jpeg): ")
-		self.clear_input()
 		pic_name = raw_input()
 		voice.Speak("Enter the picture width in inches: ")
-		self.clear_input()
 		pic_width = float(raw_input())
 		pic = self.doc.add_picture(pic_name, width = Inches(pic_width))
 		self.saveAsDoc()
 
 #to find the paragraph with the particular word
 	def search_first_para(self):
-		voice.Speak("Enter the word: ")
-		self.clear_input()
+		voice.Speak("Enter the word to search in paragraphs: ")
 		word = raw_input()
 		word = re.compile(word,re.I)
 		for paras in self.doc.paragraphs:
@@ -172,21 +163,20 @@ class docEditor:
 		Flag = True
 		while Flag == True:
 			voice.Speak('Do you want to listen to menu? (Y or N)')
-			self.clear_input()
 			choice = raw_input().upper()
 			if(choice == 'Y' or choice == 'YES'):
-				voice.Speak('1. To read the document' + '\n' +
-						'2. To add a Heading' + '\n' +
-						'3. To write a new paragraph on the document' + '\n' +
-						'4. To add a new formatted text' +'\n' +
-						'5. To change the font style and font name of the document' + '\n'
-						'6. To add a new Table and then display it' + '\n'
-						'7. To add Picture to the document ' + '\n' 
-						'8. To delete a paragraph containing a particular word ' + '\n' 
-						'9. To delete the last paragraph ')
+				voice.Speak('1. Read the doc' + '\n' +
+						'2. Add a Heading' + '\n' +
+						'3. Add new Para' + '\n' +
+						'4. Add formatted text' +'\n' +
+						'5. Change Font style of Doc' + '\n'
+						'6. Add Table' + '\n'
+						'7. Add Picture ' + '\n' 
+						'8. Delete a paragraph containing a particular word ' + '\n' 
+						'9. Delete the last paragraph ')
 			voice.Speak("Enter your choice number: ")
+			flag2 = False
 			try:
-				self.clear_input()
 				ch = int(raw_input())
 				flag2 = True
 			except:
@@ -201,7 +191,7 @@ class docEditor:
 				elif ch == 2:
 					try:
 						self.addHeading()
-						voice.Speak("Heading added!")
+					 	voice.Speak("Heading added!")
 					except:
 						voice.Speak("Error in adding the heading!")
 				elif ch == 3:
@@ -215,11 +205,9 @@ class docEditor:
 						try:
 							new_format = ''
 							voice.Speak('Enter your choice: bold(B), italic(I) or underline(U) (seperated by spaces): ')
-							self.clear_input()
 							new_format = raw_input().upper()
 							self.formattedtext(new_format)
 							voice.Speak("Do You want to add more formatted text? y or n: ")
-							self.clear_input()
 							Continue = raw_input().upper()
 							if Continue == 'N' or Continue == 'NO':
 								flag2 = False
@@ -227,7 +215,6 @@ class docEditor:
 							voice.Speak("Error in adding formatted text!")
 				elif ch == 5:
 					voice.Speak("Enter the font name and font size (space seperated):")
-					self.clear_input()
 					name, size = raw_input().split(' ')
 					size = int(size)
 					self.changeDocFont(name, size)
