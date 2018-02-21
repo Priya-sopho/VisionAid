@@ -1,135 +1,84 @@
-#pip install pygame
-#pip install pypiwin32 or pywin32
+#!/usr/bin/env python3
+# Requires PyAudio and PySpeech.
 
-
-#importing required modules
-
+import speech_recognition as sr
 import pygame as pg
-import win32com.client as wincl
-import num2words as n2w
-import os
-sense=wincl.Dispatch("SAPI.SpVoice")
+from time import ctime
+import time
+from gtts import gTTS
 
-class musicPlayer:
-    task = ['Play', 'Pause', 'Stop', 'Rewind', 'Unpause', 'Queue', 'Set Volume']
+i=0
 
-    def play_music(self):
-        # set up the mixer
-        freq = 44100 # audio CD quality
-        bitsize = -16 # unsigned 16 bit
-        channels = 2 # 1 is mono, 2 is stereo
-        _buffer = 4096 # number of samples (experiment to get best sound)
-
-        #initializes the pygame mixer (player) with the given arguments
-        pg.mixer.init(freq, bitsize, channels, _buffer)
-        #try:
-        music_file = 'C:\\Users\\H\\Music\\English Songs\\(webmusic.in)_Breathless - Copy.mp3'
-        #pg.mixer.music.load(music_file)
-        #sense.Speak('Music file loaded!')
-
-        #except pg.error:
-        #    sense.Speak('File not found!')
-        #    return
-        sound=pg.mixer.Sound(music_file)
-        sound.play()
+def speak(audioString):
+    print(audioString)
+    tts = gTTS(text=audioString, lang='en')
+    file1 = str("audio" + str(i) + ".mp3")
+    tts.save(file1)
+    pg.mixer.init()
+    pg.mixer.music.load(file1)
+    pg.mixer.music.play()
+    #os.system("mpg321 audio.mp3")
 
 
+def recordAudio():
+    # Record Audio
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Say something!")
+        audio = r.listen(source)
 
-    def menu(self):
-        sense.Speak('What do you want to do?')
-        for i in range(len(self.task)):
-            sense.Speak(n2w.num2words(i+1,to='ordinal')+self.task[i])
-        response = int(raw_input())
-        if response < len(self.task):
-            sense.Speak(self.task[response-1])
-        self.action(response)
+    # Speech recognition using Google Speech Recognition
+    data = ""
+    try:
+        # Uses the default API key
+        # To use another API key: `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+        data = r.recognize_google(audio)
+        print("You said: " + data)
+    except sr.UnknownValueError:
+        print("Google Speech Recognition could not understand audio")
+    except sr.RequestError as e:
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-
-    def pause(self):
-        pg.mixer.music.pause()
-        sense.Speak('Music paused!');
-
-
-
-    def resume(self):
-        pg.mixer.music.unpause()
-        sense.Speak('Music Resumed!');
-
-
-    def exit(self):
-        pg.mixer.music.stop()
-        sense.Speak('Exiting music playing task')
-        os._exit(1)
+    return data
 
 
+def jarvis(data):
+    if "how are you" in data:
+        speak("I am fine")
 
-    def rewind(self):
+    if "what time is it" in data:
+        speak(ctime())
+
+    if "play" in data:
+        #speak("Starting the music playing task")
+        file2 = "C://Users//H//Desktop//(webmusic.in)_Breathless - Copy.mp3"
+        pg.mixer.init()
+        pg.mixer.music.load(file2)
+        pg.mixer.music.play()
+
+    if "pause" in data:
+        #speak("Pausing")
+        if pg.mixer.music.get_busy():
+            pg.mixer.music.pause()
+
+    if "resume" in data:
+        #speak("Resuming")
+        if pg.mixer.music.pause():
+            pg.mixer.music.unpause()
+
+    if "stop" in data:
+        #speak("Stopping")
+        if pg.mixer.music.get_busy():
+            pg.mixer.music.stop()
+
+    if "rewind" in data:
+        #speak("Rewinding")
         pg.mixer.music.rewind()
-        sense.Speak('Music rewinded!')
 
-
-
-#    def queueNext(self):
-#        self.index = (self.index + 1) % len(self.filenames)
-#        curFile = self.filenames[self.index]
-#        pygame.mixer.music.queue(getPath(music, curFile))
-
-
-
-    def setVolume(self):
-        volume = min(volume,1.0)
-        volume = max(volume,0.0)
-        pg.mixer.music.set_volume(volume)
-
-
-
-    def action(self,choice):
-         try:
-             if choice==1:
-                 self.play_music()
-             elif choice==2:
-                 self.pause()
-             elif choice==3:
-                 self.resume()
-             elif choice==4:
-                 self.exit()
-             elif choice==5:
-                 self.rewind()
-             elif choice==6:
-                 self.queueNext()
-             elif choice==7:
-                 self.setVolume()
-             else:
-                 sense.Speak('Wrong Input!')
-                 self.menu()
-         except KeyboardInterrupt:
-             sense.Speak('Pausing..')
-             response = int(raw_input())
-             if response < len(self.task):
-                 sense.Speak(self.task[response-1])
-             self.action(response)
-
-
-def Task(phrase):
-    phrase.lower()
-    if phrase == 'play':
-        play_music()
-    elif phrase == 'pause':
-        pause()
-    elif phrase == 'resume':
-        resume()
-    elif phrase == 'exit':
-        exit()
-    elif phrase == 'rewind':
-        rewind()
-     #elif phrase == 'play next':
-         #queueNext()
-    elif phrase == 'set volume':
-        setVolume()
-    else:
-        sense.Speak('Sorry! Unable to recognize your action')
-    resume()
-
-#start()
-playMusic = musicPlayer()
-playMusic.play_music()
+# initialization
+time.sleep(2)
+speak("Hi Frank, what can I do for you?")
+while 1:
+    i=i+1
+    data = recordAudio()
+    jarvis(data)
