@@ -150,14 +150,18 @@ class docEditor:
 		for paras in self.doc.paragraphs:
 			if word.search(paras.text) is not None:
 				return paras
+		return None
 
 #to delete a particular paragraph from the document
 	def del_para(self,paragraph):
 		p = paragraph._element
-		p.getparent().remove(p)
-		p._p = p._element = None
-		self.para = self.doc.paragraphs[-1]
-		self.saveAsDoc()
+		if len(p):
+			p.getparent().remove(p)
+			p._p = p._element = None
+			self.para = self.doc.paragraphs[-1]
+			self.saveAsDoc()
+			return True
+		return False
 
 	def menu(self):
 		Flag = True
@@ -232,14 +236,24 @@ class docEditor:
 						voice.Speak("Error in adding picture!")
 				elif ch == 8:
 					try:
-						self.del_para(self.search_first_para())
-						voice.Speak("Paragraph deleted!")
+						para = self.search_first_para()
+						if para is not None:
+							r = self.del_para(para)
+							if r:
+								voice.Speak("Paragraph deleted!")
+							else:
+								voice.Speak("Unable to delete the paragraph")
+						else:
+							voice.Speak("Paragraph with searched word doesn't exist")
 					except:
 						voice.Speak("Error in deleting paragraph!")
 				elif ch == 9:
 					try:
-						self.del_para(self.para)
-						voice.Speak("Last Paragraph deleted!")
+						r = self.del_para(self.para)
+						if r:
+							voice.Speak("Last Paragraph deleted!")
+						else:
+							voice.Speak("No last Paragraph exist")
 					except:
 						voice.Speak("Error in deleting paragraph!")
 				else:
