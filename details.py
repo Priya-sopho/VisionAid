@@ -15,7 +15,7 @@ class Example(QtGui.QWidget):
         self.name = QtGui.QLabel('Name')
         self.quad_code = QtGui.QLabel('quad_code')
         self.profilePic = QtGui.QLabel('Profile Picture')
-
+        self.msg = QtGui.QLabel('VisionAid account Registration')
 
         self.nameEdit = QtGui.QLineEdit()
 
@@ -35,16 +35,20 @@ class Example(QtGui.QWidget):
         grid = QtGui.QGridLayout()
         grid.setSpacing(10)
 
-        grid.addWidget(self.name, 1, 0)
-        grid.addWidget(self.nameEdit, 1, 1)
+        grid.addWidget(self.msg, 1, 0)
 
-        grid.addWidget(self.quad_code, 2, 0)
-        grid.addWidget(self.quad_codeEdit, 2, 1)
+        grid.addWidget(self.name, 2, 0)
+        grid.addWidget(self.nameEdit, 2, 1)
+
+        grid.addWidget(self.quad_code, 3, 0)
+        grid.addWidget(self.quad_codeEdit, 3, 1)
 
 
-        grid.addWidget(self.profilePic, 3, 0)
-        grid.addWidget(self.button1, 3, 1)
-        grid.addWidget(self.pic, 3, 2)
+        grid.addWidget(self.profilePic, 4, 0)
+        grid.addWidget(self.button1, 4, 1)
+        grid.addWidget(self.pic, 4, 2)
+
+        
 
         grid.addWidget(self.button2, 6, 0)
 
@@ -56,6 +60,8 @@ class Example(QtGui.QWidget):
 
 
         # connect button to function on_click
+        self.button1.clicked.connect(self.take_pic)
+        # connect button to function on_click
         self.button2.clicked.connect(self.on_click)
         self.setWindowTitle('Registration')
         self.show()
@@ -64,14 +70,31 @@ class Example(QtGui.QWidget):
         nam = self.nameEdit.text()
         pas = self.quad_codeEdit.text()
         filename = QtGui.QFileDialog.getSaveFileName(self, 'file', 'C:\\reg\\file.txt')
-        filenam = "my_drawing.jpg"
-        self.pic.save(filenam)
         fname = open(filename, 'w')
         fname.write("name=" + str(nam))
         fname.write("\nquad_code=" + str(pas))
+        fname.write("\npic="+str(nam)+'.jpg')
         fname.close()
-
-
+        
+    
+    def take_pic(self):
+        import cv2,time
+        self.msg.repaint()
+        self.msg.setText('Setting camera')
+        time.sleep(1)
+        camera_port = 0
+        camera = cv2.VideoCapture(camera_port)
+        time.sleep(10)  # If you don't wait, the image will be dark
+        return_value, image = camera.read()
+        self.msg.setText('')
+        del(camera)
+        name = str(self.nameEdit.text())
+        cv2.imwrite(name+'.jpg',image)
+        pixmap = QPixmap(name +".jpg")
+        pixmap = pixmap.scaledToWidth(150)
+        self.pic.setPixmap(pixmap)
+        self.button1.setText('Retake Photo')
+                
 
 
 def main():
