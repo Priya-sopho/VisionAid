@@ -20,22 +20,19 @@ Link to app features description: https://docs.google.com/document/d/1ubM8JUVAbI
 Link to log file:
 https://docs.google.com/spreadsheets/d/1d9-0a-qe7w713yk49RsQJP3Sp2EWHebwGLGIMBaVspU/edit#gid=0
 
-
+**Installation**
+Run following commands :
+> python setup.py install
+or
+> pip install -r example-requirements.txt
+*Incase of installation errors try using **sudo** with pip command*
 **Pdf Reader**
 
-1.Install following libraries:
+1.Change file name in pdfReader_keyboardinput.py script
 
->pip install PyPDF2
+2.Run 'python pdfReader_keyboardinput.py '
 
->pip install pypiwin32 or pywin32
-
->pip install num2words
-
-2.Change file name in pdfReader_keyboardinput.py script
-
-3.Run 'python pdfReader_keyboardinput.py '
-
-4.Press Ctrl+C to pause the script
+3.Press Ctrl+C to pause the script
 
 Press any key except (1 - 10) to hear menu.
 
@@ -65,15 +62,11 @@ Press any key except (1 - 10) to hear menu.
 
 **Music Player**
 
-1.Install following libraries:
+1.Change file name in music.py script
 
->pip install pygame
+2.Run 'python music.py '
 
-2.Change file name in music.py script
-
-3.Run 'python music.py '
-
-4.Press Ctrl+C to pause the script
+3.Press Ctrl+C to pause the script
 
 
 **File exploration**
@@ -89,22 +82,8 @@ Press any key except (1 - 10) to hear menu.
 5. Similarly change path for copy_file() and copy_directory(). 
 
 **Web Browser**
-
-  1.Install the following Libraries:
-
-  >speech_recognition
-
-  >webbrowser
-
-  >google
-
-  >pyautogui
-
-  **INSTALL using command : pip install dependency_name**
-
-  Incase of installation errors try using **sudo** with pip command
   
-  2.Run **web_browser.py** using command: *python web_browser.py*
+  1.Run **web_browser.py** using command: *python web_browser.py*
 
    >**googleSearch():** will perform a google search for spoken keyword and then return top 10 results.
 
