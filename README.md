@@ -21,8 +21,11 @@ Link to log file:
 https://docs.google.com/spreadsheets/d/1d9-0a-qe7w713yk49RsQJP3Sp2EWHebwGLGIMBaVspU/edit#gid=0
 
 **Installation**
+
 Run following commands :
+
 > python setup.py install
+
 > pip install -r example-requirements.txt
 
 *Incase of installation errors try using **sudo** with pip command*
