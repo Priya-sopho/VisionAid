@@ -23,8 +23,8 @@ https://docs.google.com/spreadsheets/d/1d9-0a-qe7w713yk49RsQJP3Sp2EWHebwGLGIMBaV
 **Installation**
 Run following commands :
 > python setup.py install
-or
 > pip install -r example-requirements.txt
+
 *Incase of installation errors try using **sudo** with pip command*
 **Pdf Reader**
 
