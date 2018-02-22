@@ -9,13 +9,11 @@
 
 """
 	Following keys to be used for keyboard interrupts
-	1. Visit a URL- Space
+	1. Pause/Resume- Space
 	2. Exit - q
-	3. Skip current result - esc
-	4. Bookmark - b
-	5. Access Bookmarks - 
-	6. Access History - 
-	7. Google Search - f
+	3. Reading bookmark/History - r
+	4. Add Bookmark - b
+	5. Google Search - f
 """
 import threading,time 
 import msvcrt
@@ -29,12 +27,21 @@ voice = wincl.Dispatch("SAPI.SpVoice")
 
 class webBrowser:
 	def __init__(self):
-		self.say("Welcome to Web Browsing")
+		voice.Speak("Welcome to Web Browsing")
 		self.url = ""
+		self.googleData = None
+		self.buffer = ["Press f to google search", "Press r to listen bookmark or history"]
+		#Pause 
+		self.pause_key = 0 #Initially pause is off
 		#Lock
-		self.lock = threading.Lock()  #Initially pause is on
+		self.lock = threading.Lock()  
 		kb = threading.Thread(target=self.listenKeyboard)
+		sp = threading.Thread(target=self.say)
+		google = threading.Thread(target=self.googleSearchSpeak)
 		kb.start()
+		sp.start()
+		google.start()
+
 		
 	def listenKeyboard(self):
 		with keyboard.Listener(on_press=self.onPress) as listener:
@@ -50,21 +57,41 @@ class webBrowser:
 				self.createBookmark()
 			if key.char == 'f':
 				self.googleSearch()
+			if key.char == 'r':
+				self.read()
 		except AttributeError:
-			if key == keyboard.Key.space:
-				self.visitUrl()
+			if key == keyboard.Key.space and self.pause_key == 0:
+				self.lock.acquire()
+				self.pause_key = 1
+				voice.Speak('Pausing')
+				self.lock.release()
+			elif key == keyboard.Key.space:				
+				self.lock.acquire()
+				self.pause_key = 0
+				voice.Speak('Resuming')
+				self.lock.release()
+				
+				
 
-
-	def say(self,line):
+	
+	def say(self):
 		#os.system("say {0}".format(line))
-		voice.Speak(line)
-
+		while True:
+			self.lock.acquire()
+			if self.pause_key == 0 and len(self.buffer) > 0:
+				print len(self.buffer)
+				line = self.buffer.pop()
+				if len(line)!= 0:
+					print line
+					voice.Speak(line)
+			self.lock.release()
+			
 	def listen(self,chunk_size=2048,say = "Say Something"):
 		import speech_recognition as sr  
 		r = sr.Recognizer()  
 		with sr.Microphone(chunk_size=chunk_size) as source:  
 			print("Please wait. Calibrating microphone...") 
-			self.say("Please wait. Calibrating microphone...") 
+			#self.say("Please wait. Calibrating microphone...") 
 			r.adjust_for_ambient_noise(source, duration=3)  
 			print say  
 			self.say(say)
@@ -84,55 +111,83 @@ class webBrowser:
 				listen(chunk_size) 
 
 	def exit(self):
-		self.say("Exiting now")
+		voice.Speak("Exiting Web Browser")
 		while msvcrt.kbhit():
 			msvcrt.getch()
 		os._exit(1)
 
-	def visitUrl(self):
-		self.lock.acquire()
-		self.say("Visiting chosen result")
-		web.open(self.result.link)
-		createHistory()
-		self.lock.release()
+	# def visitUrl(self):
+	# 	self.lock.acquire()
+	# 	self.say("Visiting chosen result")
+	# 	web.open(self.result.link)
+	# 	createHistory()
+	# 	self.lock.release()
 
 	def googleSearch(self):
 		from google import google as web
-		self.lock.acquire()
-		self.say("Enter keywords to search")
+		#self.lock.acquire()
+		voice.Speak("Enter keywords to search")
 		keyWords = raw_input()
-		results = web.search(keyWords,1)
-		self.lock.release()
+		data = {'name': keyWords,'link': 'google.com'}
+		self.createHistory(data)
+		self.googleData = web.search(keyWords,1)
+		print "End searching"
 
-		for self.result in results:
-			self.lock.acquire()
-			print "Name: ",self.result.name
-			self.say(self.result.name)
-			print "Description: ",self.result.description
-			self.say(self.result.description)
-			self.lock.release()
-			print "----------------"
 
+	def googleSearchSpeak(self):
+		while True:
+			if self.googleData is not None:
+				for self.result in self.googleData:
+					print('*'*4+str(len(self.buffer))+'*'*4)
+					if len(self.buffer) == 0:
+						#print "Name: ",self.result.name.encode('utf-8','ignore')
+						#self.lock.acquire()
+						self.buffer.insert(0,'Title' + self.result.name.encode('utf-8'))
+						self.buffer.insert(0,'Description')
+						#self.lock.release()
+						desc = self.result.description.encode('utf-8','ignore').splitlines()
+						#print "Description: ",desc
+						#self.lock.acquire()
+						for d in desc:
+							self.buffer.insert(0,d)
+					else:
+						while(len(self.buffer)):
+							pass
+				self.buffer.insert(0,'Search completed.')
+				self.googleData = None
+			
+		
+		
 
 	#Create bookmarks, Web browser must be open and active
 	def createBookmark(self):
 		b = {}
-		b["name"] = self.result.name
-		b["url"] = self.result.link
+		b["name"] = self.result.name.encode('utf-8')
+		b["url"] = self.result.link.encode('utf-8')
 		b["datetime"] = str(datetime.datetime.now())
 		with open('bookmarks.txt', 'a+') as f:
   			json.dump(b, f, ensure_ascii=False)
 
 	#Bookmarks exported to a file "bookmarks"
 	# def accessBookmarks(self):
-	def createHistory():
+	def createHistory(self,result):
 		h = {}
-		h["name"] = self.result.name
-		h["url"] = self.result.link
+		h["name"] = result['name']
+		h["url"] = result['link']
 		h["datetime"] = str(datetime.datetime.now())
 		with open('history.txt', 'a+') as f:
   			json.dump(h, f, ensure_ascii=False)
-		
+
+	def read(self):
+		self.say('Press 1 for bookmark and 2 for history')
+		ch = int(raw_input())
+		if ch == 1:
+			self.accessBookmark()
+		elif ch == 2:
+			self.accessHistory()
+		else:
+			self.say('Invalid Choice! Exiting Bookmark or History Reading Task')
+
 
   	def accessHistory(self):
   		pass
