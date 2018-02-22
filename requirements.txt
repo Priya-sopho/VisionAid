@@ -5,12 +5,10 @@ pypiwin32
 pywin32
 num2words
 pygame
-speech_recognition
-webbrowser
+SpeechRecognition
 PyQt4
-shutil
 python-docx
 pynput
 gtts
-opencv-python
+"""opencv-python"""
 face_recognition
