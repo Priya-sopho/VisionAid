@@ -51,10 +51,11 @@ def jarvis(data):
 
     if "play" in data:
         #speak("Starting the music playing task")
-        file2 = "C://Users//H//Desktop//(webmusic.in)_Breathless - Copy.mp3"
-        pg.mixer.init()
-        pg.mixer.music.load(file2)
-        pg.mixer.music.play()
+        with open('C://Users//H//Desktop//Playlist.txt') as playlist:
+            for next_song in playlist:
+                pg.mixer.init()
+                pg.mixer.music.load(str(next_song))
+                pg.mixer.music.play()
 
     if "pause" in data:
         #speak("Pausing")
