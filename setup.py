@@ -18,7 +18,6 @@ setup(
         "python-docx",
         "pynput",
         "gtts",
-        "msvcrt",
         "opencv-python",
         "face_recognition",
     ],
