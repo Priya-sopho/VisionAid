@@ -104,18 +104,12 @@ class docEditor:
 		voice.Speak("Columns: ")
 		col_count = int(raw_input())
 		table = self.doc.add_table(row_count,col_count)
-		table.style.name = 'TableGrid'
+		table.style = 'Table Grid'
 		voice.Speak("Enter the values in the table row by row: ")
 		for row in table.rows:
 			for cell in row.cells:
 				cell.text = raw_input()	
 			print('\n')	
-		print('\n')
-		for row in table.rows:
-			for cell in row.cells:
-				print(cell.text , end = ' ')
-			print('\n')
-		print('\n')
 		self.saveAsDoc()
 
 # to change the document's font name and font size
