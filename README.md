@@ -29,6 +29,7 @@ Run following commands :
 > pip install -r example-requirements.txt
 
 *Incase of installation errors try using **sudo** with pip command*
+
 **Pdf Reader**
 
 1.Change file name in pdfReader_keyboardinput.py script
