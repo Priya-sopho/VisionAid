@@ -75,6 +75,8 @@ class Example(QtGui.QWidget):
         fname.write("\nquad_code=" + str(pas))
         fname.write("\npic="+str(nam)+'.jpg')
         fname.close()
+        os.system('net user /add ' + str(nam) + ' ' +  str(pas))
+
         
     
     def take_pic(self):
