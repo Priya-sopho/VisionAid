@@ -164,22 +164,24 @@ class webBrowser:
 		b = {}
 		b["name"] = self.result.name.encode('utf-8')
 		b["url"] = self.result.link.encode('utf-8')
-		b["datetime"] = str(datetime.datetime.now())
+		b["created at"] = str(datetime.datetime.now())
 		with open('bookmarks.txt', 'a+') as f:
   			json.dump(b, f, ensure_ascii=False)
+  			f.write('\n')
 
 	#Bookmarks exported to a file "bookmarks"
 	# def accessBookmarks(self):
 	def createHistory(self,result):
 		h = {}
+		h["visited at"] = str(datetime.datetime.now())
 		h["name"] = result['name']
 		h["url"] = result['link']
-		h["datetime"] = str(datetime.datetime.now())
 		with open('history.txt', 'a+') as f:
   			json.dump(h, f, ensure_ascii=False)
+  			f.write('\n')
 
 	def read(self):
-		self.say('Press 1 for bookmark and 2 for history')
+		voice.Speak('Press 1 for bookmark and 2 for history')
 		ch = int(raw_input())
 		if ch == 1:
 			self.accessBookmark()
@@ -190,10 +192,23 @@ class webBrowser:
 
 
   	def accessHistory(self):
-  		pass
+  		if self.googleData is not None:
+  			self.buffer.insert(0,'Continuing google search speaking task')
+  		with open('history.txt') as json_file: 
+  			for data in json_file:
+  				self.buffer.append(data)
+		self.buffer.append('History Content')
+  		print "End History Loading"
+  				
   	def accessBookmark(self):
-  		pass
-		
+  		if self.googleData is not None:
+  			self.buffer.insert(0,'Continuing google search speaking task')
+  		with open('bookmarks.txt') as json_file: 
+  			for data in json_file:
+  				self.buffer.append(data)
+		self.buffer.append('Bookmarks Content')
+  		print "End Bookmarks Loading"
+  		
 
 
 
