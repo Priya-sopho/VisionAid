@@ -60,32 +60,35 @@ class webBrowser:
 			if key.char == 'r':
 				self.read()
 		except AttributeError:
-			if key == keyboard.Key.space and self.pause_key == 0:
-				self.lock.acquire()
-				self.pause_key = 1
-				voice.Speak('Pausing')
-				self.lock.release()
-			elif key == keyboard.Key.space:				
-				self.lock.acquire()
-				self.pause_key = 0
-				voice.Speak('Resuming')
-				self.lock.release()
-				
+			if key == keyboard.Key.space:
+				if self.pause_key == 0:
+					self.lock.acquire()
+					self.pause_key = 1
+					voice.Speak('Pausing')
+				else:
+					self.pause_key = 0
+					voice.Speak('Resuming')
+					self.lock.release()
+			# elif key == keyboard.Key.space:				
+			# 	self.pause_key = 0
+			# 	voice.Speak('Resuming')
+			# 	self.lock.release()
+			
 				
 
 	
 	def say(self):
 		#os.system("say {0}".format(line))
 		while True:
-			self.lock.acquire()
-			if self.pause_key == 0 and len(self.buffer) > 0:
-				print len(self.buffer)
-				line = self.buffer.pop()
-				if len(line)!= 0:
-					print line
-					voice.Speak(line)
-			self.lock.release()
-			
+			if len(self.buffer) > 0:
+				if self.pause_key == 0:
+					with  self.lock:
+						line = self.buffer.pop()
+						if len(line):
+							print line
+						voice.Speak(line)
+						print('Released')
+				
 	def listen(self,chunk_size=2048,say = "Say Something"):
 		import speech_recognition as sr  
 		r = sr.Recognizer()  
@@ -125,7 +128,6 @@ class webBrowser:
 
 	def googleSearch(self):
 		from google import google as web
-		#self.lock.acquire()
 		voice.Speak("Enter keywords to search")
 		keyWords = raw_input()
 		data = {'name': keyWords,'link': 'google.com'}
@@ -138,16 +140,10 @@ class webBrowser:
 		while True:
 			if self.googleData is not None:
 				for self.result in self.googleData:
-					print('*'*4+str(len(self.buffer))+'*'*4)
 					if len(self.buffer) == 0:
-						#print "Name: ",self.result.name.encode('utf-8','ignore')
-						#self.lock.acquire()
 						self.buffer.insert(0,'Title' + self.result.name.encode('utf-8'))
 						self.buffer.insert(0,'Description')
-						#self.lock.release()
 						desc = self.result.description.encode('utf-8','ignore').splitlines()
-						#print "Description: ",desc
-						#self.lock.acquire()
 						for d in desc:
 							self.buffer.insert(0,d)
 					else:
@@ -168,6 +164,7 @@ class webBrowser:
 		with open('bookmarks.txt', 'a+') as f:
   			json.dump(b, f, ensure_ascii=False)
   			f.write('\n')
+  		voice.Speak('Bookmark added')
 
 	#Bookmarks exported to a file "bookmarks"
 	# def accessBookmarks(self):
