@@ -12,9 +12,6 @@ voice = wincl.Dispatch("SAPI.SpVoice")
 from pynput import keyboard 
 import msvcrt
 
-#Word file to listen
-file = 'C:\Users\Priya Rani\Desktop\Wedu\LDP.docx' 
-
 """
  wordReader to listen the content of word file
  Following are the function alongwith keyboard keys to be pressed to execute:
@@ -395,9 +392,11 @@ def Task(phrase):
 	
 	
 voice.Speak("WORD READER. Give the name of the file: ")
+voice.Speak("PDF READER. Give the name of the file: ")
 file = raw_input()
 if '.docx' not in file:
 	file = file + '.docx'
+file = os.path.join('docx',file)
 reader = wordReader(file)
 reader.start()		
 

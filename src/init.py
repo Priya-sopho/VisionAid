@@ -73,6 +73,7 @@ def init():
 		else:
 			voice.Speak("Invalid Choice!")
 		
+print('Plugin your earphone')
 voice.Speak('Face Recognition Login')
 try:
 	os.system('python Login_via_face.py')

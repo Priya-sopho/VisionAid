@@ -305,8 +305,6 @@ class pdfReader:
 	"""		
 	def jump(self):
 		#Clear the input flush
-		while msvcrt.kbhit():
-			msvcrt.getch()
 		self.lock.acquire()
 		voice.Speak('Tell me the page number to jump on?')
 		self._page = int(raw_input())-1
@@ -392,6 +390,7 @@ voice.Speak("PDF READER. Give the name of the file: ")
 file = raw_input()
 if '.pdf' not in file:
 	file = file + '.pdf'
+file = os.path.join('pdf',file)
 reader = pdfReader(file)
 reader.start()		
 

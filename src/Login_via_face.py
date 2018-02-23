@@ -71,7 +71,8 @@ class VideoLogin:
                     if True in matches:
                         first_match_index = matches.index(True)
                         name = self.known_face_names[first_match_index]
-                        voice.Speak(name+"You are recognized")
+                        voice.Speak(name+" You are recognized")
+                        print(name+" You are recognized")
                         rec = True
 
                     self.face_names.append(name)
