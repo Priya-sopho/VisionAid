@@ -16,7 +16,7 @@ relDir = "music"
 
 class music:
     def __init__(self):
-        freq = 48000 # audio CD quality
+        freq = 48000 # audio DVD quality
         bitsize = -16 # unsigned 16 bit
         channels = 2
         buffer = 10240 
@@ -82,9 +82,18 @@ class playlist:
 
     # Add functionality for shuffle and sort by number of plays
     def playPlaylist(self):
+        print "Press y to play the song"
+        os.system("say Press y to play the song")
         for file in self.autoPlaylist:
-            m = music()
-            m.play(file,180)
+            f = file[0:len(file)-4]
+            print f
+            os.system("say {0}".format(f))
+            r = raw_input()
+            if r=='y':
+                m = music()
+                m.play(file)
+            else:
+                pass
 
 
 l = playlist()

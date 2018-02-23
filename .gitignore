@@ -5,4 +5,3 @@ UNKNOWN.egg-info
 VisionAid.egg-info
 *.pyc
 src/playlist.json
-src/music

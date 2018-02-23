@@ -1,3 +1,4 @@
+#Add cv2, face recognition
 requests
 Google-Search-API
 PyPDF2
