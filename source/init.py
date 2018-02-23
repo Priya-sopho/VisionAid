@@ -13,13 +13,6 @@ def exit(self):
 	os._exit(1)
 
 def init():
-	#Lock
-	lock = threading.Lock()  #Initially pause is on		
-	#Pause button
-	pause_key = 0
-	kb = threading.Thread(target=self.listenKeyboard)
-	kb.start()
-	# voice.Speak()
 	Flag = True
 	while Flag:
 		voice.Speak('Do you want to listen to tasks? Press S to listen: ')
@@ -27,72 +20,60 @@ def init():
 		if choice == 'S':
 			voice.Speak("Press" + "\n"
 						"G - To Open Google " + '\n'
-						"R - To read the PDF file " + '\n'
+						"P - To read the PDF file " + '\n'
 						"C - To create/edit a Word file" + '\n'
-						"J - To read a Word file" + '\n'
+						"R - To read a Word file" + '\n'
 						"M - To play Music" + '\n'
 						"F - To work with files and directories" + '\n'
-						"N - To get latest news " )
+						"N - To get latest news "+ "\n"
+						"L - Logout" )
 		voice.Speak("Press the task choice key: ")
 		ch = raw_input().upper()
 		if ch == 'G':
-			lock.acquire()
 			try:
-				import web_browser.py
+				os.system('python web_browser.py')
 			except:
 				voice.Speak("Error in opening Google!")
-			lock.release()
-		elif ch == 'R':
-			lock.acquire()
+		elif ch == 'P':
 			try:
-				import pdfReader.py
+				os.system('python pdfReader.py')
 			except:
 				voice.Speak("Error in opening and reading a PDF file!")
-			lock.release()
 		elif ch == 'C':
-			lock.acquire()
 			try:
-				import ms_word_document.py
+				os.system('python ms_word_document.py')
 			except:
 				voice.Speak("Error in creating or editing the word file!")
-			lock.release()
-		elif ch == 'J':
-			lock.acquire()
+		elif ch == 'R':
 			try:
-				import wordReader.py
+				os.system('python wordReader.py') 
 			except:
 				voice.Speak("Error in reading the word file!")
-			lock.release()
 		elif ch == 'M':
-			lock.acquire()
 			try:
-				import music.py
+				os.system('python music.py')
 			except:
 				voice.Speak("Error in playing Music!")
-			lock.release()
 		elif ch == 'F':
-			lock.acquire()
 			try:
-				import file_exploration.py
+				os.system('python file_exploration.py')
 			except:
 				voice.Speak("Error in opening and working with files!")
-			lock.release()
 		elif ch == 'N':
-			lock.acquire()
 			try:
-				import news.py
+				os.system('python news.py')
 			except:
 				voice.Speak("Error in getting news!")
-			lock.release()
+		elif ch == 'L':
+			try:
+				voice.Speak("Logging Out")
+				os._exit(1)
+			except:
+				voice.Speak("Unable to logout")
 		else:
 			voice.Speak("Invalid Choice!")
-		voice.Speak("Any more task? (yes or No)")
-		more_task = raw_input().upper()
-		if more_task == 'N' or more_task == 'NO':
-			Flag = False
-			exit()
-
-import Login_via_face.py
+		
+os.system('python Login_via_face.py')
 voice.Speak("Starting VisionAid for Windows!")
 voice.Speak("You can perform any of the listed task!")
 while True:

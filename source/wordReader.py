@@ -394,7 +394,10 @@ def Task(phrase):
 		voice.Speak('Sorry! Unable to recognize your action')
 	
 	
-#start()
+voice.Speak("WORD READER. Give the name of the file: ")
+file = raw_input()
+if '.docx' not in file:
+	file = file + '.docx'
 reader = wordReader(file)
 reader.start()		
 

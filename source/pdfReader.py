@@ -14,8 +14,6 @@ from pynput import keyboard
 import msvcrt
 
 
-#Pdf file to listen
-file = "C:\Users\Priya Rani\Desktop\Wedu\SOP.pdf" 
 
 """
  pdfReader to listen the content of pdf file
@@ -389,7 +387,11 @@ def Task(phrase):
 		voice.Speak('Sorry! Unable to recognize your action')
 	
 	
-#start()
+
+voice.Speak("PDF READER. Give the name of the file: ")
+file = raw_input()
+if '.pdf' not in file:
+	file = file + '.pdf'
 reader = pdfReader(file)
 reader.start()		
 

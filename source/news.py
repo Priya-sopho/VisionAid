@@ -134,7 +134,7 @@ class news:
 		while msvcrt.kbhit():
 			msvcrt.getch()
 		os._exit(1)
-	
+		
 
 	"""
 	  Repeat the last line

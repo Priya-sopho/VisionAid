@@ -21,6 +21,8 @@ class docEditor:
 			self.doc = Document(filename)
 		except:
 		 	try:
+		 		#If new file
+		 		self.filename = os.path.join("word",self.filename)
 		 		self.doc = Document()
 		 		self.saveAsDoc()
 		 	except:
@@ -38,6 +40,7 @@ class docEditor:
 		
 	#Exit 
 	def exit(self):
+		voice.Speak('Exiting Word doc handling Task')
 		os._exit(1)
 
 # to get the whole document text for read operation
