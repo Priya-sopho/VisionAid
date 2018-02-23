@@ -1,84 +1,93 @@
-#!/usr/bin/env python3
-# Requires PyAudio and PySpeech.
-
-import speech_recognition as sr
 import pygame as pg
-from time import ctime
-import time
-from gtts import gTTS
+import time,datetime
+import os
+import json,codecs
 
-i=0
+"""
+    MusicDirectory : music/
+    ToDo:
+    1. Custom Playlist
+    2. Order playlist by number of plays
+    3. Shuffle Playlist
+    4. Keyboard Interrupts
+    5. Play from a position
+"""
+relDir = "music"
 
-def speak(audioString):
-    print(audioString)
-    tts = gTTS(text=audioString, lang='en')
-    file1 = str("audio" + str(i) + ".mp3")
-    tts.save(file1)
-    pg.mixer.init()
-    pg.mixer.music.load(file1)
-    pg.mixer.music.play()
-    #os.system("mpg321 audio.mp3")
+class music:
+    def __init__(self):
+        freq = 48000 # audio CD quality
+        bitsize = -16 # unsigned 16 bit
+        channels = 2
+        buffer = 10240 
+        pg.mixer.init(freq, bitsize, channels, buffer)
+        self.q = pg.mixer.music
+
+    def play(self,file,pos = None):
+
+        file = relDir+"/"+file
+        try:
+            self.q.load(file)
+            print("Music file {} loaded!".format(file))
+        except pg.error:
+            print("File {} not found! ({})".format(file, pg.get_error()))
+            return
+
+        try:
+            self.q.set_pos(pos)
+        except:
+            print "Unable to set position"
+
+        self.q.play()
+        print "Playing now at: ",datetime.datetime.now().time()
+        while self.q.get_busy():
+            pass
+        print "Playing ended at: ",datetime.datetime.now().time()
+
+    def pauseResume(self):
+        if self.q.get_busy():
+            self.q.pause()
+        elif self.q.pause():
+            self.q.unpause()
+
+    def setVolume(self, volume = 0.8):
+        self.q.set_volume(volume)
+
+    def rewind():
+        self.q.rewind()
+
+    def stop():
+        self.q.stop()
+
+class playlist:
+    def __init__(self):
+        self.autoPlaylist = {}
+        try:
+            open('playlist.json')
+            with open('playlist.json') as handle:
+                self.autoPlaylist = json.loads(handle.read())
+        except :
+            pass
+        #Create customised playlist
+        # self.myPlaylist = {}
+
+    def createPlaylist(self, auto = True):
+        if(auto):
+            for filename in os.listdir(relDir):
+                if filename.endswith(".mp3"):
+                    file = filename
+                    if(file not in self.autoPlaylist):
+                        self.autoPlaylist[file] = 0
+        with open('playlist.json', 'w+') as f:
+            json.dump(self.autoPlaylist, f, ensure_ascii=False)
+
+    # Add functionality for shuffle and sort by number of plays
+    def playPlaylist(self):
+        for file in self.autoPlaylist:
+            m = music()
+            m.play(file,180)
 
 
-def recordAudio():
-    # Record Audio
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Say something!")
-        audio = r.listen(source)
-
-    # Speech recognition using Google Speech Recognition
-    data = ""
-    try:
-        # Uses the default API key
-        # To use another API key: `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-        data = r.recognize_google(audio)
-        print("You said: " + data)
-    except sr.UnknownValueError:
-        print("Google Speech Recognition could not understand audio")
-    except sr.RequestError as e:
-        print("Could not request results from Google Speech Recognition service; {0}".format(e))
-
-    return data
-
-
-def jarvis(data):
-    if "how are you" in data:
-        speak("I am fine")
-
-    if "what time is it" in data:
-        speak(ctime())
-
-    if "play" in data:
-        #speak("Starting the music playing task")
-        file2 = "C://Users//H//Desktop//(webmusic.in)_Breathless - Copy.mp3"
-        pg.mixer.init()
-        pg.mixer.music.load(file2)
-        pg.mixer.music.play()
-
-    if "pause" in data:
-        #speak("Pausing")
-        if pg.mixer.music.get_busy():
-            pg.mixer.music.pause()
-
-    if "resume" in data:
-        #speak("Resuming")
-        if pg.mixer.music.pause():
-            pg.mixer.music.unpause()
-
-    if "stop" in data:
-        #speak("Stopping")
-        if pg.mixer.music.get_busy():
-            pg.mixer.music.stop()
-
-    if "rewind" in data:
-        #speak("Rewinding")
-        pg.mixer.music.rewind()
-
-# initialization
-time.sleep(2)
-speak("Hi Frank, what can I do for you?")
-while 1:
-    i=i+1
-    data = recordAudio()
-    jarvis(data)
+l = playlist()
+l.createPlaylist()
+l.playPlaylist()
