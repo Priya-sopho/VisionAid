@@ -73,8 +73,13 @@ def init():
 		else:
 			voice.Speak("Invalid Choice!")
 		
-os.system('python Login_via_face.py')
-voice.Speak("Starting VisionAid for Windows!")
-voice.Speak("You can perform any of the listed task!")
-while True:
+voice.Speak('Face Recognition Login')
+try:
+	os.system('python Login_via_face.py')
+	voice.Speak("Starting VisionAid for Windows!")
+	voice.Speak("You can perform any of the listed task!")
 	init()
+
+except:
+	voice.Speak("Unable to login")
+

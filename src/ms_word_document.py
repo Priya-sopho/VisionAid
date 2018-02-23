@@ -134,6 +134,7 @@ class docEditor:
 	def addPicture(self):
 		voice.Speak("Enter the name of the Picture (with extension i.e. .png or .jpeg): ")
 		pic_name = raw_input()
+		pic_name = os.path.join("image",pic_name)
 		voice.Speak("Enter the picture width in inches: ")
 		pic_width = float(raw_input())
 		pic = self.doc.add_picture(pic_name, width = Inches(pic_width))
