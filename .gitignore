@@ -3,3 +3,4 @@ build
 dist
 UNKNOWN.egg-info
 VisionAid.egg-info
+*.pyc
