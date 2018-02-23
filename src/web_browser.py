@@ -87,7 +87,7 @@ class webBrowser:
 						if len(line):
 							print line
 						voice.Speak(line)
-						print('Released')
+						#print('Released')
 				
 	def listen(self,chunk_size=2048,say = "Say Something"):
 		import speech_recognition as sr  
@@ -161,7 +161,7 @@ class webBrowser:
 		b["name"] = self.result.name.encode('utf-8')
 		b["url"] = self.result.link.encode('utf-8')
 		b["created at"] = str(datetime.datetime.now())
-		with open('bookmarks.txt', 'a+') as f:
+		with open(os.path.join("browser",'bookmarks.txt'), 'a+') as f:
   			json.dump(b, f, ensure_ascii=False)
   			f.write('\n')
   		voice.Speak('Bookmark added')
@@ -173,7 +173,7 @@ class webBrowser:
 		h["visited at"] = str(datetime.datetime.now())
 		h["name"] = result['name']
 		h["url"] = result['link']
-		with open('history.txt', 'a+') as f:
+		with open(os.path.join("browser",'history.txt'), 'a+') as f:
   			json.dump(h, f, ensure_ascii=False)
   			f.write('\n')
 
