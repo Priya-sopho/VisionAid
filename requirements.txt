@@ -11,4 +11,4 @@ python-docx
 pynput
 gtts
 """opencv-python"""
-face_recognition
+"""face_recognition"""
