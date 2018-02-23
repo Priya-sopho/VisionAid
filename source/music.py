@@ -1,7 +1,7 @@
 import pygame as pg
 import time,datetime
 import os
-import json,codecs
+import json
 
 """
     MusicDirectory : music/
