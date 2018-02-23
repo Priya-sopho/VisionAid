@@ -10,5 +10,3 @@ PyQt4
 python-docx
 pynput
 gtts
-"""opencv-python"""
-"""face_recognition"""

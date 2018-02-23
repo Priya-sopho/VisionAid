@@ -26,7 +26,7 @@ Run following commands :
 
 > python setup.py install
 
-> pip install -r example-requirements.txt
+> pip install -r requirements.txt
 
 *Incase of installation errors try using **sudo** with pip command*
 
