@@ -1,0 +1,4 @@
+.DS_Store
+*.pyc
+playlist.json
+web_browser.py
