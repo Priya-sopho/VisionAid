@@ -82,7 +82,7 @@ class pdfReader:
 			msvcrt.getch()
 			
 		try:
-			print('You pressed {0}'.format(key))
+			print('You pressed {0}'.format(key.char))
 			if key.char == 'q':
 				self.exit()
 			if key.char == 'j':
@@ -207,14 +207,15 @@ class pdfReader:
 					self.lock.release()
 				
 				self.lock.acquire()
-				speak.say(self.lines[self._line])
+				speak.say(self.lines[self._line].encode('ascii','ignore').decode('ascii'))
 				self._line += 1		
 				self.lock.release()
 			self._page += 1
 			self._line = 0
 			self.resume()
 
-		except:
+		except Exception as e:
+			print(e)
 			speak.say("Some error")
 			return
 		

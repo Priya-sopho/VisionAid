@@ -115,9 +115,9 @@ class news:
 					self.speak(categories[self.category_code]+' news')			
 				a = self.article
 				if(self.article == a):
-					self.speak('Title '+self.articles[self.article]['title'])
+					self.speak('Title '+self.articles[self.article]['title'].encode('ascii','ignore').decode('ascii'))
 				if(self.article == a):
-					self.speak('Desciption '+self.articles[self.article]['description'])
+					self.speak('Desciption '+self.articles[self.article]['description'].encode('ascii','ignore').decode('ascii'))
 				self.article += 1
 			self.category_code = (self.category_code+1)%7
 			#self.resume()

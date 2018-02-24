@@ -83,6 +83,7 @@ class wordReader:
 			msvcrt.getch()
 			
 		try:
+			print('You pressed {0}'.format(key))
 			if key.char == 'q':
 				self.exit()
 			if key.char == 'j':
@@ -137,7 +138,7 @@ class wordReader:
 	def menu(self):
 		sense.Speak('What do you want to do?')
 		for i in range(len(self.task)):
-			sense.Speak(n2w.num2words(i+1,to='ordinal')+self.task[i])
+			sense.Speak(n2w.num2words(i+1,to='ordinal')+' '+self.task[i])
 		response = int(raw_input())
 		if response < len(self.task):
 			sense.Speak(self.task[response-1])
@@ -151,9 +152,9 @@ class wordReader:
 		try:
 			
 			if self.total_paras>1:
-				para = 'paragraphs.'
+				para = ' paragraphs.'
 			else:
-				para = 'paragraph.'
+				para = ' paragraph.'
 
 			self.lock.acquire()
 			speak.say('Welcome to word listening task')
@@ -186,7 +187,7 @@ class wordReader:
 			#if on first line of para,then tell para number
 			if self._line == 0:
 				self.lock.acquire()
-				speak.say(n2w.num2words(self._para+1, to='ordinal') + 'para') 
+				speak.say(n2w.num2words(self._para+1, to='ordinal') + ' para') 
 				self.lock.release()
 			
 			# creating a para object
@@ -200,7 +201,7 @@ class wordReader:
 			
 			while self._line < len(self.lines):
 				self.lock.acquire()
-				speak.say(self.lines[self._line])
+				speak.say(self.lines[self._line].encode('ascii','ignore').decode('ascii'))
 				self._line += 1		
 				self.lock.release()
 			self._para += 1
@@ -363,7 +364,7 @@ class wordReader:
 	def change_speed(self,r):
 		voice.Rate += r
 	
-	
+#Use with speech commands	
 def Task(phrase):
 	phrase.lower()
 	if phrase == 'start':
@@ -391,11 +392,10 @@ def Task(phrase):
 	
 	
 speak.say("WORD READER. Give the name of the file: ")
-speak.say("PDF READER. Give the name of the file: ")
 file = raw_input()
 if '.docx' not in file:
 	file = file + '.docx'
-file = os.path.join('docx',file)
+file = os.path.join('word',file)
 reader = wordReader(file)
 reader.start()		
 

@@ -18,13 +18,13 @@ def init():
 		choice = raw_input().upper()
 		if choice == 'S':
 			speak.say("Press" + "\n"
-						"G - To Open Google " + '\n'
 						"P - To read the PDF file " + '\n'
 						"C - To create/edit a Word file" + '\n'
 						"R - To read a Word file" + '\n'
 						"M - To play Music" + '\n'
 						"F - To work with files and directories" + '\n'
 						"N - To get latest news "+ "\n"
+						"G - To Open Google " + '\n'
 						"L - Logout" )
 		speak.say("Press the task choice key: ")
 		ch = raw_input().upper()
@@ -55,7 +55,8 @@ def init():
 				speak.say("Error in playing Music!")
 		elif ch == 'F':
 			try:
-				os.system('python file_exploration.py')
+				#os.system('python file_exploration.py')
+				speak.say('Under construction')
 			except:
 				speak.say("Error in opening and working with files!")
 		elif ch == 'N':

@@ -30,8 +30,8 @@ class docEditor:
 		
 		self.para = self.doc.add_paragraph('')
 
-		kb = threading.Thread(target=self.listenKeyboard)
-		kb.start()
+		# kb = threading.Thread(target=self.listenKeyboard)
+		# kb.start()
 		self.menu()
 		
 	def __del__(self):
@@ -261,22 +261,22 @@ class docEditor:
 				Flag = False
 				self.exit()
 
-	"""
-	 Keyboard listening callback function
-	"""
-	def on_press(self,key):
-		try:
-			speak.say('{0}'.format(key.char))
-		except AttributeError:
-			speak.say('{0}'.format(key))
+	# """
+	#  Keyboard listening callback function
+	# """
+	# def on_press(self,key):
+	# 	try:
+	# 		speak.say('{0}'.format(key.char))
+	# 	except AttributeError:
+	# 		speak.say('{0}'.format(key))
 				
-	"""
-	 Listen to keyboard keys
-	"""
-	def listenKeyboard(self):
-	    # Collect events until released
-	    with keyboard.Listener(on_press=self.on_press) as listener:
-	        listener.join()
+	# """
+	#  Listen to keyboard keys
+	# """
+	# def listenKeyboard(self):
+	#     # Collect events until released
+	#     with keyboard.Listener(on_press=self.on_press) as listener:
+	#         listener.join()
 	     
 
 

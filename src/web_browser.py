@@ -40,17 +40,20 @@ class webBrowser:
 		kb.start()
 		sp.start()
 		google.start()
-
+		
 		
 	def listenKeyboard(self):
-		with keyboard.Listener(on_press=self.onPress) as listener:
-			listener.join()
+		try:
+			with keyboard.Listener(on_press=self.onPress) as listener:
+				listener.join()
+		except Exception as e:
+			print(e)
 
 	def onPress(self,key):
 		while msvcrt.kbhit():
 			msvcrt.getch()
 		try:
-			print('You pressed'+key.char)
+			print('You pressed {0}'.format(key.char))
 			if key.char == 'q':
 				self.exit()
 			if key.char == 'b':
@@ -62,34 +65,29 @@ class webBrowser:
 		except AttributeError:
 			if key == keyboard.Key.space:
 				print('You pressed space')
-				if self.pause_key == 0:
-					self.lock.acquire()
-					self.pause_key = 1
-					speak.say('Pausing')
-				else:
-					self.pause_key = 0
-					speak.say('Resuming')
-					self.lock.release()
-			# elif key == keyboard.Key.space:				
-			# 	self.pause_key = 0
-			# 	speak.say('Resuming')
-			# 	self.lock.release()
-			
+				self.lock.acquire()
+				speak.say('Pausing')
+				ch = 'p'
+				while ch != 'r':
+					ch = raw_input()
+				speak.say('Resuming')
+				self.lock.release()
 				
-
+	
 	
 	def say(self):
 		#os.system("say {0}".format(line))
 		while True:
-			if len(self.buffer) > 0:
-				if self.pause_key == 0:
-					with  self.lock:
-						line = self.buffer.pop()
-						if len(line):
-							print line
-						speak.say(line)
-						#print('Released')
-				
+			if len(self.buffer):
+				line = self.buffer.pop()
+				if len(line):
+					self.lock.acquire()
+					speak.say(line)
+					self.lock.release()
+			time.sleep(1)
+
+					#print('Released')
+		
 	def listen(self,chunk_size=2048,say = "Say Something"):
 		import speech_recognition as sr  
 		r = sr.Recognizer()  
@@ -141,30 +139,29 @@ class webBrowser:
 		while True:
 			if self.googleData is not None:
 				for self.result in self.googleData:
-					if len(self.buffer) == 0:
-						self.buffer.insert(0,'Title' + self.result.name.encode('utf-8'))
-						self.buffer.insert(0,'Description')
-						desc = self.result.description.encode('utf-8','ignore').splitlines()
-						for d in desc:
-							self.buffer.insert(0,d)
-					else:
-						while(len(self.buffer)):
-							pass
+					while (len(self.buffer) and self.pause_key):
+						time.sleep(2)
+					self.buffer.insert(0,'Title ' + self.result.name.encode('ascii','ignore').decode('ascii'))
+					self.buffer.insert(0,'Description')
+					desc = self.result.description.encode('ascii','ignore').decode('ascii').splitlines()
+					for d in desc:
+						self.buffer.insert(0,d.encode('ascii','ignore').decode('ascii'))
 				self.buffer.insert(0,'Search completed.')
 				self.googleData = None
-			
+				
 		
 		
 
 	#Create bookmarks, Web browser must be open and active
 	def createBookmark(self):
 		b = {}
-		b["name"] = self.result.name.encode('utf-8')
-		b["url"] = self.result.link.encode('utf-8')
+		b["name"] = self.result.name.encode('ascii','ignore').decode('ascii')
+		b["url"] = self.result.link.encode('ascii','ignore').decode('ascii')
 		b["created at"] = str(datetime.datetime.now())
 		with open(os.path.join("browser",'bookmarks.txt'), 'a+') as f:
   			json.dump(b, f, ensure_ascii=False)
   			f.write('\n')
+  			f.close()
   		speak.say('Bookmark added')
 
 	#Bookmarks exported to a file "bookmarks"
@@ -177,6 +174,7 @@ class webBrowser:
 		with open(os.path.join("browser",'history.txt'), 'a+') as f:
   			json.dump(h, f, ensure_ascii=False)
   			f.write('\n')
+  			f.close()
 
 	def read(self):
 		speak.say('Press 1 for bookmark and 2 for history')
@@ -186,13 +184,13 @@ class webBrowser:
 		elif ch == 2:
 			self.accessHistory()
 		else:
-			self.say('Invalid Choice! Exiting Bookmark or History Reading Task')
+			speak.say('Invalid Choice! Exiting Bookmark or History Reading Task')
 
 
   	def accessHistory(self):
   		if self.googleData is not None:
   			self.buffer.insert(0,'Continuing google search speaking task')
-  		with open('history.txt') as json_file: 
+  		with open(os.path.join("browser",'history.txt')) as json_file: 
   			for data in json_file:
   				self.buffer.append(data)
 		self.buffer.append('History Content')
@@ -201,7 +199,7 @@ class webBrowser:
   	def accessBookmark(self):
   		if self.googleData is not None:
   			self.buffer.insert(0,'Continuing google search speaking task')
-  		with open('bookmarks.txt') as json_file: 
+  		with open(os.path.join("browser",'bookmarks.txt')) as json_file: 
   			for data in json_file:
   				self.buffer.append(data)
 		self.buffer.append('Bookmarks Content')

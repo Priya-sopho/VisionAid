@@ -2,6 +2,7 @@ import pygame as pg
 import time,datetime
 import os
 import json
+import speak
 
 """
     MusicDirectory : music/
@@ -82,12 +83,10 @@ class playlist:
 
     # Add functionality for shuffle and sort by number of plays
     def playPlaylist(self):
-        print "Press y to play the song"
-        os.system("say Press y to play the song")
+        speak.say("Press y to play the song")
         for file in self.autoPlaylist:
             f = file[0:len(file)-4]
-            print f
-            os.system("say {0}".format(f))
+            speak.say("Do you want to listen {0}".format(f))
             r = raw_input()
             if r=='y':
                 m = music()
