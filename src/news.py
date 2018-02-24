@@ -1,10 +1,9 @@
 #pip install newsapi-python
-import win32com.client as wincl
+import speak
 import os 
 import threading
 from pynput import keyboard 
 import msvcrt
-voice = wincl.Dispatch("SAPI.SpVoice")
 
 """
  Available categories 
@@ -48,12 +47,14 @@ class news:
 			msvcrt.getch()
 			
 		try:
+			print('You pressed {0}'.format(key.char))
 			if key.char == 'q':
 				self.exit()
 			elif key.char == 'r':
 			    self.repeat() 
 		        
 		except AttributeError:
+			print('You pressed {0}'.format(key))
 			if (key == keyboard.Key.space) and self.pause_key:
 				self.pause_key = 0
 				self.lock.release()
@@ -62,9 +63,9 @@ class news:
 				self.lock.acquire()
 				self.pause()
 			elif(key == keyboard.Key.up):
-			    self.change_speed(1)
+			    speak.change_speed(1)
 			elif(key == keyboard.Key.down):
-			    self.change_speed(-1)
+			    speak.change_speed(-1)
 			elif(key == keyboard.Key.right):
 			    self.skip()
 			elif(key == keyboard.Key.left):
@@ -86,9 +87,9 @@ class news:
 	def speak(self,text):
 		self.lock.acquire()
 		if(len(text) == 0):
-			voice.Speak('None')
+			speak.say('None')
 		else:	
-			voice.Speak(text)
+			speak.say(text)
 		self.lock.release()
 
 	"""
@@ -96,7 +97,7 @@ class news:
 	"""
 	def pause(self):
 		self.pause_key = 1
-		voice.Speak('Pausing')
+		speak.say('Pausing')
 		
 		
 	"""
@@ -111,7 +112,7 @@ class news:
 			while self.article < len(self.articles):
 				#if on first article of category,then tell category
 				if self.article == 0:
-					self.speak(categories[self.category_code]+'news')			
+					self.speak(categories[self.category_code]+' news')			
 				a = self.article
 				if(self.article == a):
 					self.speak('Title '+self.articles[self.article]['title'])
@@ -122,14 +123,14 @@ class news:
 			#self.resume()
 
 		except:
-			voice.Speak("Some error")
+			speak.say("Some error")
 			return
 		
 	"""
 	 Exit pdf Reading Task
 	"""
 	def exit(self):		
-		voice.Speak('Exiting news speaking task')
+		speak.say('Exiting news speaking task')
 		#Clear the input flush
 		while msvcrt.kbhit():
 			msvcrt.getch()
@@ -141,7 +142,7 @@ class news:
 	"""	
 	def repeat(self):
 		self.lock.acquire()
-		voice.Speak('Repeating')
+		speak.say('Repeating')
 		self.article -= 1
 		if(self.article < 0):
 			self.article = 0
@@ -153,7 +154,7 @@ class news:
 	"""
 	def rewind(self):
 		self.lock.acquire()
-		voice.Speak('Rewinding')
+		speak.say('Rewinding')
 		self.article -= 10
 		if(self.article<0):
 			self.article = 0
@@ -166,18 +167,13 @@ class news:
 	"""
 	def skip(self):
 		self.lock.acquire()
-		voice.Speak('Moving to next Category')
+		speak.say('Moving to next Category')
 		self.article = 0
 		self.category_code = (self.category_code+1)%7
 		# Get articles 
 		self.articles = self.headlines(categories[self.category_code])
 		self.lock.release()
-	"""
-	 Change the rate of speaking up key increase the speed, down key decrease the speed
-	"""
-	def change_speed(self,r):
-		voice.Rate += r
-
+	
 	"""
 	 Reading news for user
 	"""

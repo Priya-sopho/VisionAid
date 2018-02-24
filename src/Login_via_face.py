@@ -1,11 +1,7 @@
 import face_recognition
 import cv2
-import win32com.client as wincl
+import speak
 import os,time
-voice = wincl.Dispatch("SAPI.SpVoice")
-import Image
-
-
 
 
 class VideoLogin:
@@ -71,8 +67,7 @@ class VideoLogin:
                     if True in matches:
                         first_match_index = matches.index(True)
                         name = self.known_face_names[first_match_index]
-                        voice.Speak(name+" You are recognized")
-                        print(name+" You are recognized")
+                        speak.say(name+" You are recognized")
                         rec = True
 
                     self.face_names.append(name)
@@ -98,7 +93,7 @@ class VideoLogin:
 
             # Display the resulting image
             #cv2.imshow('Video', frame)
-            voice.Speak("Logging to Vision Aid")
+            speak.say("Logging to Vision Aid")
             cv2.destroyAllWindows()
 
 #Main method

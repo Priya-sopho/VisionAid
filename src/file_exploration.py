@@ -1,8 +1,7 @@
 import os
 from datetime import datetime
-import win32com.client as wincl
+import speak
 from shutil import copyfile,copytree,copy2
-speak = wincl.Dispatch("SAPI.SpVoice")
 
 def get_drives():
     response = os.popen("wmic logicaldisk get caption")
@@ -26,39 +25,39 @@ def get_directory_list(directory):
         if os.path.isfile(os.path.join(directory,x)):
             if(x.endswith('.pdf')):
                 print("pdf-",x)
-                speak.Speak("pdf"+x)
+                speak.say("pdf"+x)
             elif(x.endswith('.doc')):
                 print("doc-",x)
-                speak.Speak("doc"+ x)
+                speak.say("doc"+ x)
             elif(x.endswith('.mp3')):
                 print("audio",x)
-                speak.Speak("audio"+ x)
+                speak.say("audio"+ x)
             else:
                 print('f-',x)
-                speak.Speak("file"+ x)
+                speak.say("file"+ x)
 
         elif os.path.isdir(os.path.join(directory,x)):
             print ('d-', x)
-            speak.Speak("folder"+ x)
+            speak.say("folder"+ x)
 
         elif os.path.islink(os.path.join(directory,x)):
             print ('l-', x)
-            speak.Speak("link"+ x)
+            speak.say("link"+ x)
 
         else:
             print ('---', x)
-            speak.Speak(x)
+            speak.say(x)
 
 def open_MyPc():
     list = get_drives()
     for l in list:
         print(l)
-        speak.Speak(l)
+        speak.say(l)
     drive = input()
     if is_valid_path(drive):
         return drive
     else:
-        speak.Speak("Enter correct drive")
+        speak.say("Enter correct drive")
         return 0;
     
 
@@ -76,7 +75,7 @@ def create_directory(path,name):
     list2 = []
     for x in os.listdir(path):
         if(x == name):
-            speak.Speak("Folder name already exist. Please choose another name")
+            speak.say("Folder name already exist. Please choose another name")
             return 0
     os.makedirs(os.path.join(path,name))
     return 1

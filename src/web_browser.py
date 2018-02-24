@@ -22,12 +22,11 @@ import os
 import webbrowser as web
 import io,json
 import datetime
-import win32com.client as wincl
-voice = wincl.Dispatch("SAPI.SpVoice")
+import speak
 
 class webBrowser:
 	def __init__(self):
-		voice.Speak("Welcome to Web Browsing")
+		speak.say("Welcome to Web Browsing")
 		self.url = ""
 		self.googleData = None
 		self.buffer = ["Press f to google search", "Press r to listen bookmark or history"]
@@ -51,6 +50,7 @@ class webBrowser:
 		while msvcrt.kbhit():
 			msvcrt.getch()
 		try:
+			print('You pressed'+key.char)
 			if key.char == 'q':
 				self.exit()
 			if key.char == 'b':
@@ -61,17 +61,18 @@ class webBrowser:
 				self.read()
 		except AttributeError:
 			if key == keyboard.Key.space:
+				print('You pressed space')
 				if self.pause_key == 0:
 					self.lock.acquire()
 					self.pause_key = 1
-					voice.Speak('Pausing')
+					speak.say('Pausing')
 				else:
 					self.pause_key = 0
-					voice.Speak('Resuming')
+					speak.say('Resuming')
 					self.lock.release()
 			# elif key == keyboard.Key.space:				
 			# 	self.pause_key = 0
-			# 	voice.Speak('Resuming')
+			# 	speak.say('Resuming')
 			# 	self.lock.release()
 			
 				
@@ -86,7 +87,7 @@ class webBrowser:
 						line = self.buffer.pop()
 						if len(line):
 							print line
-						voice.Speak(line)
+						speak.say(line)
 						#print('Released')
 				
 	def listen(self,chunk_size=2048,say = "Say Something"):
@@ -114,7 +115,7 @@ class webBrowser:
 				listen(chunk_size) 
 
 	def exit(self):
-		voice.Speak("Exiting Web Browser")
+		speak.say("Exiting Web Browser")
 		while msvcrt.kbhit():
 			msvcrt.getch()
 		os._exit(1)
@@ -128,12 +129,12 @@ class webBrowser:
 
 	def googleSearch(self):
 		from google import google as web
-		voice.Speak("Enter keywords to search")
+		speak.say("Enter keywords to search")
 		keyWords = raw_input()
 		data = {'name': keyWords,'link': 'google.com'}
 		self.createHistory(data)
 		self.googleData = web.search(keyWords,1)
-		print "End searching"
+		print "End loading search"
 
 
 	def googleSearchSpeak(self):
@@ -164,7 +165,7 @@ class webBrowser:
 		with open(os.path.join("browser",'bookmarks.txt'), 'a+') as f:
   			json.dump(b, f, ensure_ascii=False)
   			f.write('\n')
-  		voice.Speak('Bookmark added')
+  		speak.say('Bookmark added')
 
 	#Bookmarks exported to a file "bookmarks"
 	# def accessBookmarks(self):
@@ -178,7 +179,7 @@ class webBrowser:
   			f.write('\n')
 
 	def read(self):
-		voice.Speak('Press 1 for bookmark and 2 for history')
+		speak.say('Press 1 for bookmark and 2 for history')
 		ch = int(raw_input())
 		if ch == 1:
 			self.accessBookmark()

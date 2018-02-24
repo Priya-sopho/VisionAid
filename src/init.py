@@ -1,12 +1,11 @@
 import os
 import threading
-import win32com.client as wincl
+import speak
 import msvcrt
 from pynput import keyboard
-voice = wincl.Dispatch("SAPI.SpVoice")
 
 def exit(self):		
-	voice.Speak('Exiting tasks')
+	speak.say('Exiting tasks')
 	#Clear the input flush
 	while msvcrt.kbhit():
 		msvcrt.getch()
@@ -15,10 +14,10 @@ def exit(self):
 def init():
 	Flag = True
 	while Flag:
-		voice.Speak('Do you want to listen to tasks? Press S to listen: ')
+		speak.say('Do you want to listen to tasks? Press S to listen: ')
 		choice = raw_input().upper()
 		if choice == 'S':
-			voice.Speak("Press" + "\n"
+			speak.say("Press" + "\n"
 						"G - To Open Google " + '\n'
 						"P - To read the PDF file " + '\n'
 						"C - To create/edit a Word file" + '\n'
@@ -27,60 +26,60 @@ def init():
 						"F - To work with files and directories" + '\n'
 						"N - To get latest news "+ "\n"
 						"L - Logout" )
-		voice.Speak("Press the task choice key: ")
+		speak.say("Press the task choice key: ")
 		ch = raw_input().upper()
 		if ch == 'G':
 			try:
 				os.system('python web_browser.py')
 			except:
-				voice.Speak("Error in opening Google!")
+				speak.say("Error in opening Google!")
 		elif ch == 'P':
 			try:
 				os.system('python pdfReader.py')
 			except:
-				voice.Speak("Error in opening and reading a PDF file!")
+				speak.say("Error in opening and reading a PDF file!")
 		elif ch == 'C':
 			try:
 				os.system('python ms_word_document.py')
 			except:
-				voice.Speak("Error in creating or editing the word file!")
+				speak.say("Error in creating or editing the word file!")
 		elif ch == 'R':
 			try:
 				os.system('python wordReader.py') 
 			except:
-				voice.Speak("Error in reading the word file!")
+				speak.say("Error in reading the word file!")
 		elif ch == 'M':
 			try:
 				os.system('python music.py')
 			except:
-				voice.Speak("Error in playing Music!")
+				speak.say("Error in playing Music!")
 		elif ch == 'F':
 			try:
 				os.system('python file_exploration.py')
 			except:
-				voice.Speak("Error in opening and working with files!")
+				speak.say("Error in opening and working with files!")
 		elif ch == 'N':
 			try:
 				os.system('python news.py')
 			except:
-				voice.Speak("Error in getting news!")
+				speak.say("Error in getting news!")
 		elif ch == 'L':
 			try:
-				voice.Speak("Logging Out")
+				speak.say("Logging Out")
 				os._exit(1)
 			except:
-				voice.Speak("Unable to logout")
+				speak.say("Unable to logout")
 		else:
-			voice.Speak("Invalid Choice!")
+			speak.say("Invalid Choice!")
 		
 print('Plugin your earphone')
-voice.Speak('Face Recognition Login')
+speak.say('Face Recognition Login')
 try:
 	os.system('python Login_via_face.py')
-	voice.Speak("Starting VisionAid for Windows!")
-	voice.Speak("You can perform any of the listed task!")
+	speak.say("Starting VisionAid for Windows!")
+	speak.say("You can perform any of the listed task!")
 	init()
 
 except:
-	voice.Speak("Unable to login")
+	speak.say("Unable to login")
 

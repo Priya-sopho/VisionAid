@@ -5,14 +5,13 @@ from docx.shared import Pt,Inches
 from docx.enum.style import WD_STYLE_TYPE
 import threading
 import os
-import win32com.client as wincl
+import speak
 from pynput import keyboard
-voice = wincl.Dispatch("SAPI.SpVoice")
 
 class docEditor:
 	def __init__(self):
 
-		voice.Speak("Word Document. Give the name of the file: ")
+		speak.say("Word Document. Give the name of the file: ")
 		filename = raw_input()
 		if '.docx' not in filename:
 			filename = filename + '.docx'
@@ -26,7 +25,7 @@ class docEditor:
 		 		self.doc = Document()
 		 		self.saveAsDoc()
 		 	except:
-		 		voice.Speak('The document cannot be created due to some error.Try to use any other document name!')
+		 		speak.say('The document cannot be created due to some error.Try to use any other document name!')
 		 		self.exit()
 		
 		self.para = self.doc.add_paragraph('')
@@ -40,12 +39,12 @@ class docEditor:
 		
 	#Exit 
 	def exit(self):
-		voice.Speak('Exiting Word doc handling Task')
+		speak.say('Exiting Word doc handling Task')
 		os._exit(1)
 
 # to get the whole document text for read operation
 	def getFullText(self):
-		voice.Speak('Content of file')
+		speak.say('Content of file')
 		fulltext = []
 		for paras in self.doc.paragraphs:
 			fulltext.append(paras.text)
@@ -57,7 +56,7 @@ class docEditor:
 
 # Enter the text to be added
 	def enterText(self):
-		voice.Speak("Enter the text: ")
+		speak.say("Enter the text: ")
 		lines = []
 		while True:
 			line = raw_input()
@@ -77,7 +76,7 @@ class docEditor:
 # add formatted text in the running paragraph
 	def formattedtext(self,formats):
 		types = formats.split(' ')
-		voice.Speak("Do u want to enter formatted text on a new line? Yes or No : ")
+		speak.say("Do u want to enter formatted text on a new line? Yes or No : ")
 		
 		lineBreak = raw_input().upper()
 		run = self.para.add_run()
@@ -101,14 +100,14 @@ class docEditor:
 
 # to make a new table 
 	def makeTable(self):
-		voice.Speak("Enter the following" + '\n' + 'Rows: ')
+		speak.say("Enter the following" + '\n' + 'Rows: ')
 		
 		row_count = int(raw_input())
-		voice.Speak("Columns: ")
+		speak.say("Columns: ")
 		col_count = int(raw_input())
 		table = self.doc.add_table(row_count,col_count)
 		table.style = 'Table Grid'
-		voice.Speak("Enter the values in the table row by row: ")
+		speak.say("Enter the values in the table row by row: ")
 		for row in table.rows:
 			for cell in row.cells:
 				cell.text = raw_input()	
@@ -124,7 +123,7 @@ class docEditor:
 
 # to add a heading to the document
 	def addHeading(self):
-		voice.Speak("Enter the heading level: ")
+		speak.say("Enter the heading level: ")
 		l = int(raw_input())
 		text = self.enterText()
 		self.doc.add_heading(text,level = l)
@@ -132,17 +131,17 @@ class docEditor:
 
 # to add a picture to the doc file
 	def addPicture(self):
-		voice.Speak("Enter the name of the Picture (with extension i.e. .png or .jpeg): ")
+		speak.say("Enter the name of the Picture (with extension i.e. .png or .jpeg): ")
 		pic_name = raw_input()
 		pic_name = os.path.join("image",pic_name)
-		voice.Speak("Enter the picture width in inches: ")
+		speak.say("Enter the picture width in inches: ")
 		pic_width = float(raw_input())
 		pic = self.doc.add_picture(pic_name, width = Inches(pic_width))
 		self.saveAsDoc()
 
 #to find the paragraph with the particular word
 	def search_first_para(self):
-		voice.Speak("Enter the word to search in paragraphs: ")
+		speak.say("Enter the word to search in paragraphs: ")
 		word = raw_input()
 		word = re.compile(word,re.I)
 		for paras in self.doc.paragraphs:
@@ -164,10 +163,10 @@ class docEditor:
 	def menu(self):
 		Flag = True
 		while Flag == True:
-			voice.Speak('Do you want to listen to menu? (Y or N)')
+			speak.say('Do you want to listen to menu? (Y or N)')
 			choice = raw_input().upper()
 			if(choice == 'Y' or choice == 'YES'):
-				voice.Speak('1. Read the doc' + '\n' +
+				speak.say('1. Read the doc' + '\n' +
 						'2. Add a Heading' + '\n' +
 						'3. Add new Para' + '\n' +
 						'4. Add formatted text' +'\n' +
@@ -176,87 +175,87 @@ class docEditor:
 						'7. Add Picture ' + '\n' 
 						'8. Delete a paragraph containing a particular word ' + '\n' 
 						'9. Delete the last paragraph ')
-			voice.Speak("Enter your choice number: ")
+			speak.say("Enter your choice number: ")
 			flag2 = False
 			try:
 				ch = int(raw_input())
 				flag2 = True
 			except:
-				voice.Speak('Oops! you have not entered a number.')
+				speak.say('Oops! you have not entered a number.')
 
 			if flag2:
 				if ch == 1:
 					try:
-						voice.Speak(self.getFullText())    # to display the text
+						speak.say(self.getFullText())    # to display the text
 					except:
-						voice.Speak("Error in reading the document!")
+						speak.say("Error in reading the document!")
 				elif ch == 2:
 					try:
 						self.addHeading()
-					 	voice.Speak("Heading added!")
+					 	speak.say("Heading added!")
 					except:
-						voice.Speak("Error in adding the heading!")
+						speak.say("Error in adding the heading!")
 				elif ch == 3:
 					try:
 						self.addNewPara()
-						voice.Speak("Paragraph added!")
+						speak.say("Paragraph added!")
 					except:
-						voice.Speak("Error in adding new Paragraph!")
+						speak.say("Error in adding new Paragraph!")
 				elif ch == 4:
 					while flag2 == True:
 						try:
 							new_format = ''
-							voice.Speak('Enter your choice: bold(B), italic(I) or underline(U) (seperated by spaces): ')
+							speak.say('Enter your choice: bold(B), italic(I) or underline(U) (seperated by spaces): ')
 							new_format = raw_input().upper()
 							self.formattedtext(new_format)
-							voice.Speak("Do You want to add more formatted text? y or n: ")
+							speak.say("Do You want to add more formatted text? y or n: ")
 							Continue = raw_input().upper()
 							if Continue == 'N' or Continue == 'NO':
 								flag2 = False
 						except:
-							voice.Speak("Error in adding formatted text!")
+							speak.say("Error in adding formatted text!")
 				elif ch == 5:
-					voice.Speak("Enter the font name and font size (space seperated):")
+					speak.say("Enter the font name and font size (space seperated):")
 					name, size = raw_input().split(' ')
 					size = int(size)
 					self.changeDocFont(name, size)
 				elif ch == 6:
 					try:
 						self.makeTable()
-						voice.Speak("Table added!")
+						speak.say("Table added!")
 					except:
-						voice.Speak("Error in adding table!")
+						speak.say("Error in adding table!")
 				elif ch == 7:
 					try:
 						self.addPicture()
-						voice.Speak("Picture added!")
+						speak.say("Picture added!")
 					except:
-						voice.Speak("Error in adding picture!")
+						speak.say("Error in adding picture!")
 				elif ch == 8:
 					try:
 						para = self.search_first_para()
 						if para is not None:
 							r = self.del_para(para)
 							if r:
-								voice.Speak("Paragraph deleted!")
+								speak.say("Paragraph deleted!")
 							else:
-								voice.Speak("Unable to delete the paragraph")
+								speak.say("Unable to delete the paragraph")
 						else:
-							voice.Speak("Paragraph with searched word doesn't exist")
+							speak.say("Paragraph with searched word doesn't exist")
 					except:
-						voice.Speak("Error in deleting paragraph!")
+						speak.say("Error in deleting paragraph!")
 				elif ch == 9:
 					try:
 						r = self.del_para(self.para)
 						if r:
-							voice.Speak("Last Paragraph deleted!")
+							speak.say("Last Paragraph deleted!")
 						else:
-							voice.Speak("No last Paragraph exist")
+							speak.say("No last Paragraph exist")
 					except:
-						voice.Speak("Error in deleting paragraph!")
+						speak.say("Error in deleting paragraph!")
 				else:
-					voice.Speak('Invalid choice')
-			voice.Speak("Do You want to perform another operation? y or n: ")		
+					speak.say('Invalid choice')
+			speak.say("Do You want to perform another operation? y or n: ")		
 			another_operation = raw_input().upper()
 			if another_operation == 'N' or another_operation == 'No':
 				Flag = False
@@ -267,9 +266,9 @@ class docEditor:
 	"""
 	def on_press(self,key):
 		try:
-			voice.Speak('{0}'.format(key.char))
+			speak.say('{0}'.format(key.char))
 		except AttributeError:
-			voice.Speak('{0}'.format(key))
+			speak.say('{0}'.format(key))
 				
 	"""
 	 Listen to keyboard keys

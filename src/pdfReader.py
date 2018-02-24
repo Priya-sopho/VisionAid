@@ -4,12 +4,11 @@
 #pip install pynput
 # importing required modules
 import PyPDF2
-import win32com.client as wincl
+import speak
 import num2words as n2w
 import os 
 import re
 import threading,time
-voice = wincl.Dispatch("SAPI.SpVoice")
 from pynput import keyboard 
 import msvcrt
 
@@ -44,7 +43,7 @@ class pdfReader:
 			if password != '':
 				self.pdfReader.decrypt(password)
 		except:
-			voice.Speak('Unable to open the file')
+			speak.say('Unable to open the file')
 			os._exit(1)
 
 		#line no.
@@ -83,6 +82,7 @@ class pdfReader:
 			msvcrt.getch()
 			
 		try:
+			print('You pressed {0}'.format(key))
 			if key.char == 'q':
 				self.exit()
 			if key.char == 'j':
@@ -93,6 +93,7 @@ class pdfReader:
 			    self.repeat() 
 		        
 		except AttributeError:
+			print('You pressed {0}'.format(key))
 			if (key == keyboard.Key.space) and self.pause_key:
 				self.pause_key = 0
 				self.lock.release()
@@ -101,9 +102,9 @@ class pdfReader:
 				self.lock.acquire()
 				self.pause()
 			elif(key == keyboard.Key.up):
-			    self.change_speed(1)
+			    speak.change_speed(1)
 			elif(key == keyboard.Key.down):
-			    self.change_speed(-1)
+			    speak.change_speed(-1)
 			elif(key == keyboard.Key.right):
 			    self.skip()
 			elif(key == keyboard.Key.left):
@@ -139,12 +140,12 @@ class pdfReader:
 	 Menu to speak all the available task 
 	"""	
 	def menu(self):
-		voice.Speak('What do you want to do?')
+		speak.say('What do you want to do?')
 		for i in range(len(self.task)):
-			voice.Speak(n2w.num2words(i+1,to='ordinal')+self.task[i])
+			speak.say(n2w.num2words(i+1,to='ordinal')+self.task[i])
 		response = int(raw_input())
 		if response < len(self.task):
-			voice.Speak(self.task[response-1])
+			speak.say(self.task[response-1])
 		self.action(response)
 
 
@@ -158,17 +159,17 @@ class pdfReader:
 			#Number of pages in pdf file
 			self.total_pages = self.pdfReader.numPages
 			if self.total_pages>1:
-				page = 'pages.'
+				page = ' pages.'
 			else:
-				page = 'page.'
+				page = ' page.'
 
 			self.lock.acquire()	
-			voice.Speak('Welcome to pdf listening task')
-			voice.Speak('There are '+ n2w.num2words(self.total_pages,to='cardinal') + page)
+			speak.say('Welcome to pdf listening task')
+			speak.say('There are '+ n2w.num2words(self.total_pages,to='cardinal') + page)
 			self.lock.release()
 			self.resume()
 		except :
-			voice.Speak('Some Error')
+			speak.say('Some Error')
 			return
 			
 
@@ -177,7 +178,7 @@ class pdfReader:
 	"""
 	def pause(self):
 		self.pause_key = 1
-		voice.Speak('Pausing')
+		speak.say('Pausing')
 		
 		
 
@@ -188,7 +189,7 @@ class pdfReader:
 		#Wait until pause is not false
 		try:
 			if(self._page >= self.total_pages):
-				voice.Speak('We reached the end of file')
+				speak.say('We reached the end of file')
 				self.exit()
 						
 			# creating a page object
@@ -197,16 +198,16 @@ class pdfReader:
 			# extracting text from page
 			self.lines = self.pageObj.extractText().splitlines()
 			if len(self.lines) == 0:
-				voice.Speak('Unable to detect the content')
+				speak.say('Unable to detect the content')
 			while self._line < len(self.lines):
 				#if on first line of page,then tell page number
 				if self._line == 0:
 					self.lock.acquire()
-					voice.Speak(n2w.num2words(self._page+1, to='ordinal') + 'page') 
+					speak.say(n2w.num2words(self._page+1, to='ordinal') + ' page') 
 					self.lock.release()
 				
 				self.lock.acquire()
-				voice.Speak(self.lines[self._line])
+				speak.say(self.lines[self._line])
 				self._line += 1		
 				self.lock.release()
 			self._page += 1
@@ -214,14 +215,14 @@ class pdfReader:
 			self.resume()
 
 		except:
-			voice.Speak("Some error")
+			speak.say("Some error")
 			return
 		
 	"""
 	 Exit pdf Reading Task
 	"""
 	def exit(self):		
-		voice.Speak('Exiting pdf reading task')
+		speak.say('Exiting pdf reading task')
 		#Clear the input flush
 		while msvcrt.kbhit():
 			msvcrt.getch()
@@ -233,7 +234,7 @@ class pdfReader:
 	"""	
 	def repeat(self):
 		self.lock.acquire()
-		voice.Speak('Repeating')
+		speak.say('Repeating')
 		self._line -= 1
 		if(self._line<0):
 			self._line = 0
@@ -247,7 +248,7 @@ class pdfReader:
 			# extracting text from page
 			self.lines = self.pageObj.extractText().splitlines()
 			if len(self.lines) == 0:
-				voice.Speak('Unable to detect the content')
+				speak.say('Unable to detect the content')
 		self.lock.release()
 			
 	
@@ -256,7 +257,7 @@ class pdfReader:
 	"""
 	def rewind(self):
 		self.lock.acquire()
-		voice.Speak('Rewinding')
+		speak.say('Rewinding')
 		self._line -= 10
 		if(self._line<0):
 			self._line = 0
@@ -273,7 +274,7 @@ class pdfReader:
 			if(self._line < 0):
 				self._line = 0
 			if len(self.lines) == 0:
-				voice.Speak('Unable to detect the content')
+				speak.say('Unable to detect the content')
 		self.lock.release()
 	
 
@@ -282,11 +283,11 @@ class pdfReader:
 	"""
 	def skip(self):
 		self.lock.acquire()
-		voice.Speak('Moving to next page')
+		speak.say('Moving to next page')
 		self._page += 1
 		self._line = 0
 		if(self._page >= self.total_pages):
-			voice.Speak('We reached the end of file')
+			speak.say('We reached the end of file')
 			self.exit()
 
 		# creating a page object
@@ -295,7 +296,7 @@ class pdfReader:
 		# extracting text from page
 		self.lines = self.pageObj.extractText().splitlines()
 		if len(self.lines) == 0:
-			voice.Speak('Unable to detect the content')
+			speak.say('Unable to detect the content')
 		self.lock.release()
 		
 	
@@ -306,14 +307,14 @@ class pdfReader:
 	def jump(self):
 		#Clear the input flush
 		self.lock.acquire()
-		voice.Speak('Tell me the page number to jump on?')
+		speak.say('Tell me the page number to jump on?')
 		self._page = int(raw_input())-1
 		if(self._page < 0):
 			self._page = 0
 		if(self._page > self.total_pages):
 			self._page = self.total_pages -1
 		if(self._page >= self.total_pages):
-			voice.Speak('We reached the end of file')
+			speak.say('We reached the end of file')
 			self.exit()
 		self._line = 0
 		
@@ -323,7 +324,7 @@ class pdfReader:
 		# extracting text from page
 		self.lines = self.pageObj.extractText().splitlines()
 		if len(self.lines) == 0:
-			voice.Speak('Unable to detect the content')
+			speak.say('Unable to detect the content')
 		self.lock.release()
 		
 	
@@ -336,19 +337,19 @@ class pdfReader:
 		while msvcrt.kbhit():
 			msvcrt.getch()
 		self.lock.acquire()
-		voice.Speak('What you want to search?')
+		speak.say('What you want to search?')
 		r = raw_input()
 		pages = self.findText(r)
 		if len(pages) == 0:
-			voice.Speak(r+' not found!!')
+			speak.say(r+' not found!!')
 		else :	
 			if len(pages)>1:
 				page = 'pages.'
 			else:
 				page = 'page.'
-			voice.Speak(r+ ' found in '+ n2w.num2words(len(pages), to='cardinal') + page)
+			speak.say(r+ ' found in '+ n2w.num2words(len(pages), to='cardinal') + page)
 			for p in pages:
-				voice.Speak('Found at page number'+ n2w.num2words(p+1,to='cardinal'))
+				speak.say('Found at page number'+ n2w.num2words(p+1,to='cardinal'))
 		self.lock.release()
 		
 		
@@ -382,15 +383,16 @@ def Task(phrase):
 	elif phrase == 'change speed':
 		change_speed()
 	else:
-		voice.Speak('Sorry! Unable to recognize your action')
+		speak.say('Sorry! Unable to recognize your action')
 	
 	
 
-voice.Speak("PDF READER. Give the name of the file: ")
+speak.say("PDF READER. Give the name of the file: ")
 file = raw_input()
 if '.pdf' not in file:
 	file = file + '.pdf'
 file = os.path.join('pdf',file)
+print(file)
 reader = pdfReader(file)
 reader.start()		
 
