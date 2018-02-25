@@ -9,7 +9,7 @@
 
 """
 	Following keys to be used for keyboard interrupts
-	1. Pause/Resume- Space
+	1. Pause/play- Space
 	2. Exit - q
 	3. Reading bookmark/History - r
 	4. Add Bookmark - b
@@ -35,11 +35,12 @@ class webBrowser:
 		#Lock
 		self.lock = threading.Lock()  
 		kb = threading.Thread(target=self.listenKeyboard)
-		sp = threading.Thread(target=self.say)
+		#sp = threading.Thread(target=self.say)
 		google = threading.Thread(target=self.googleSearchSpeak)
 		kb.start()
-		sp.start()
+		#sp.start()
 		google.start()
+		self.say()
 		
 		
 	def listenKeyboard(self):
@@ -65,13 +66,14 @@ class webBrowser:
 		except AttributeError:
 			if key == keyboard.Key.space:
 				print('You pressed space')
-				self.lock.acquire()
-				speak.say('Pausing')
-				ch = 'p'
-				while ch != 'r':
-					ch = raw_input()
-				speak.say('Resuming')
-				self.lock.release()
+				if self.pause_key == 0:
+					self.lock.acquire()
+					self.pause_key = 1
+					speak.say('Pausing')
+				else:
+					speak.say('Resuming')
+					self.pause_key = 0
+					self.lock.release()
 				
 	
 	
@@ -80,14 +82,13 @@ class webBrowser:
 		while True:
 			if len(self.buffer):
 				line = self.buffer.pop()
+				while self.pause_key:
+					pass
 				if len(line):
 					self.lock.acquire()
 					speak.say(line)
 					self.lock.release()
-			time.sleep(1)
-
-					#print('Released')
-		
+			
 	def listen(self,chunk_size=2048,say = "Say Something"):
 		import speech_recognition as sr  
 		r = sr.Recognizer()  

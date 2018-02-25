@@ -17,6 +17,13 @@ NOTE: Python 2.7 must be installed and this is a windows only app. We will be ad
 
 1. Open command line and Run *pip install -r requirements.txt* or *python setup.py install* to install dependencies.
 2. Change directory to Project home.
-3. Save your picture in home/src/images named as your_name.jpg
+3. Save your profile picture in home/src/images named as your_name.jpg to login to system via face recognition
 4. Run *python init.py*.
 5. Continue as directed by the program.
+
+NOTE:
+1. If you want to open a word/pdf/music/image file give filename only of they are present in word/pdf/music/image folder else give complete path.
+
+
+
+
