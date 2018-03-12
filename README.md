@@ -30,6 +30,20 @@ Run following commands :
 
 *Incase of installation errors try using **sudo** with pip command*
 
+**MAIN**
+
+Run >phyton init.py
+
+>S - Listen Menu
+>P - To read the PDF file 
+>C - To create/edit a Word file
+>R - To read a Word file
+>M - To play Music
+>F - To work with files and directories
+>N - To get latest news
+>G - To Open Google
+>L - Logout
+
 **Pdf Reader**
 
 Following are the function alongwith keyboard keys to be pressed to execute:
@@ -94,10 +108,11 @@ Following are the function alongwith keyboard keys to be pressed to execute:
 5. Similarly change path for copy_file() and copy_directory(). 
 
 **Web Browser**
-  	Following keys to be used for keyboard interrupts
-	>1. Pause/play- Space
-	>2. Exit - q
-	>3. Reading bookmark/History - r
-	>4. Add Bookmark - b
-	>5. Google Search - f
-  
+
+Following keys to be used for keyboard interrupts
+>Pause/play- Space
+>Exit - q
+>Reading bookmark/History - r
+>Add Bookmark - b
+>Google Search - f
+
