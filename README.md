@@ -32,17 +32,16 @@ Run following commands :
 
 **MAIN**
 
-Run >phyton init.py
-
->S - Listen Menu
->P - To read the PDF file 
->C - To create/edit a Word file
->R - To read a Word file
->M - To play Music
->F - To work with files and directories
->N - To get latest news
->G - To Open Google
->L - Logout
+Run phyton init.py
+ >S - Listen Menu
+ >P - To read the PDF file 
+ >C - To create/edit a Word file
+ >R - To read a Word file
+ >M - To play Music
+ >F - To work with files and directories
+ >N - To get latest news
+ >G - To Open Google
+ >L - Logout
 
 **Pdf Reader**
 
@@ -60,28 +59,28 @@ Following are the function alongwith keyboard keys to be pressed to execute:
 
 WordReader to listen the content of word file
 Following are the function alongwith keyboard keys to be pressed to execute:
-> 1. Pause/Resume - Space
->2. Change Speed - up key to increase speed, down key to decrease speed
->3. Find a keyword in file - f
->4. Jump on a specific para - j
->5. Rewind (Move 10 lines back) - left key
->6. Repeat - r
->7. Skip current para - right key
->8. Quit - Esc key or q 
+ > 1. Pause/Resume - Space
+ >2. Change Speed - up key to increase speed, down key to decrease speed
+ >3. Find a keyword in file - f
+ >4. Jump on a specific para - j
+ >5. Rewind (Move 10 lines back) - left key
+ >6. Repeat - r
+ >7. Skip current para - right key
+ >8. Quit - Esc key or q 
 
 
 **MS WORD DOCUMENT HANDLING**
 
 Following are the numerical keys to press after menu prompt
->1. Read the word doc
->2. Add a Heading
->3. Add new Para
->4. Add formatted text
->5. Change Font style of Doc
->6. Add Table
->7. Add Picture 
->8. Delete a paragraph containing a particular word 
->9. Delete the last paragraph
+ >1. Read the word doc
+ >2. Add a Heading
+ >3. Add new Para
+ >4. Add formatted text
+ >5. Change Font style of Doc
+ >6. Add Table
+ >7. Add Picture 
+ >8. Delete a paragraph containing a particular word 
+ >9. Delete the last paragraph
 
 
 **NEWS READER**
@@ -110,9 +109,9 @@ Following are the function alongwith keyboard keys to be pressed to execute:
 **Web Browser**
 
 Following keys to be used for keyboard interrupts
->Pause/play- Space
->Exit - q
->Reading bookmark/History - r
->Add Bookmark - b
->Google Search - f
+ >Pause/play- Space
+ >Exit - q
+ >Reading bookmark/History - r
+ >Add Bookmark - b
+ >Google Search - f
 
