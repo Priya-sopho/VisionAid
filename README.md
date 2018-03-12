@@ -32,45 +32,53 @@ Run following commands :
 
 **Pdf Reader**
 
-1.Change file name in pdfReader_keyboardinput.py script
+Following are the function alongwith keyboard keys to be pressed to execute:
+ >1. Pause/Resume - Space
+ >2. Change Speed - up key to increase speed, down key to decrease speed
+ >3. Find a keyword in file - f
+ >4. Jump on a specific page - j
+ >5. Rewind (Move 10 lines back) - left key
+ >6. Repeat - r
+ >7. Skip current page - right key
+ >8. Quit - Esc key or q 
 
-2.Run 'python pdfReader_keyboardinput.py '
+**WORD READER**
 
-3.Press Ctrl+C to pause the script
-
-Press any key except (1 - 10) to hear menu.
-
-1-10 input follows certain task to perform as follows:
-
->1:Start - Begin with 1st line of pdf
-
->2:Pause
-
->3:Resume
-
->4:Exit
-
->5:Rewind 
-
->6:Repeat
-
->7:Skip current page
-
->8:Jump to a specific page
-
->9:Search
-
->10:Change speed of voice (-10 to 10)
+WordReader to listen the content of word file
+Following are the function alongwith keyboard keys to be pressed to execute:
+> 1. Pause/Resume - Space
+>2. Change Speed - up key to increase speed, down key to decrease speed
+>3. Find a keyword in file - f
+>4. Jump on a specific para - j
+>5. Rewind (Move 10 lines back) - left key
+>6. Repeat - r
+>7. Skip current para - right key
+>8. Quit - Esc key or q 
 
 
+**MS WORD DOCUMENT HANDLING**
 
-**Music Player**
+Following are the numerical keys to press after menu prompt
+>1. Read the word doc
+>2. Add a Heading
+>3. Add new Para
+>4. Add formatted text
+>5. Change Font style of Doc
+>6. Add Table
+>7. Add Picture 
+>8. Delete a paragraph containing a particular word 
+>9. Delete the last paragraph
 
-1.Change file name in music.py script
 
-2.Run 'python music.py '
+**NEWS READER**
 
-3.Press Ctrl+C to pause the script
+Following are the function alongwith keyboard keys to be pressed to execute:
+ >Pause/Resume - Space
+ >Change Speed - up key to increase speed, down key to decrease speed
+ >Repeat - r
+ >Move to next category - right key
+ >Quit - Esc key or q
+
 
 
 **File exploration**
@@ -86,14 +94,10 @@ Press any key except (1 - 10) to hear menu.
 5. Similarly change path for copy_file() and copy_directory(). 
 
 **Web Browser**
-  
-  1.Run **web_browser.py** using command: *python web_browser.py*
-
-   >**googleSearch():** will perform a google search for spoken keyword and then return top 10 results.
-
-   >**accessBookmarks():** will export the browser's boookmarks to a file called *bookmarks*.
-
-   >**accessHistory():** will export the browser's history to a file called *history*.
-
-   >**createBookmark():** will create a bookmark for the current webpage.
+  	Following keys to be used for keyboard interrupts
+	>1. Pause/play- Space
+	>2. Exit - q
+	>3. Reading bookmark/History - r
+	>4. Add Bookmark - b
+	>5. Google Search - f
   
